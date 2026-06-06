@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lantern — Lists</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lantern: {
+              50:'#fafaf8', 100:'#f5f5f1', 200:'#ebe7e1', 300:'#ddd7ce',
+              400:'#cfc9ba', 500:'#c1bda6', 600:'#8b8772', 700:'#6b6652',
+              800:'#4a4639', 900:'#2a2622',
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia','Garamond','serif'],
+            sans:  ['system-ui','-apple-system','sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .serif { font-family: Georgia, Garamond, serif; }
+  </style>
+</head>
+<body class="bg-lantern-50 text-lantern-900 antialiased">
+
+  <div id="nav-root"></div>
+  <script src="nav.js"></script>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Header -->
+    <div class="flex items-end justify-between mb-10 pb-6 border-b border-lantern-200">
+      <div>
+        <h1 class="serif text-4xl font-bold text-lantern-900 mb-1">Lists</h1>
+        <p class="text-lantern-500 text-sm">Curated collections of what moves you</p>
+      </div>
+      <button class="px-4 py-2 rounded font-medium bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-sm">
+        + New List
+      </button>
+    </div>
+
+    <!-- Lists grid -->
+    <div id="lists-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"></div>
+
+    <!-- Empty state / CTA -->
+    <div class="border-2 border-dashed border-lantern-200 rounded-lg p-10 text-center">
+      <p class="serif text-lantern-500 mb-1">Start a new list</p>
+      <p class="text-xs text-lantern-400 mb-4">Group films by feeling, books by season, albums by memory.</p>
+      <button class="px-4 py-2 rounded font-medium bg-lantern-100 text-lantern-900 hover:bg-lantern-200 transition-colors text-sm">
+        + Create List
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    const LISTS = [
+      {
+        title:'Films for Slow Mornings',
+        description:'Quiet films to watch with coffee before the world wakes up.',
+        count:12, isPublic:true, updated:'3 days ago',
+        preview:['In the Mood for Love','Paterson','Yi Yi','Lost in Translation'],
+        colors:['from-stone-800 to-stone-600','from-teal-900 to-teal-700','from-stone-700 to-stone-500','from-indigo-900 to-indigo-700'],
+      },
+      {
+        title:'Books That Rewired Something',
+        description:'Not necessarily the best books. The ones that changed how I see.',
+        count:8, isPublic:true, updated:'1 week ago',
+        preview:['Kafka on the Shore','The Remains of the Day','Stoner','Gilead'],
+        colors:['from-amber-900 to-amber-700','from-amber-800 to-amber-600','from-amber-700 to-amber-500','from-stone-800 to-stone-600'],
+      },
+      {
+        title:'Soundtracks to Existential Crises',
+        description:"Albums that understand you're both fine and falling apart.",
+        count:15, isPublic:false, updated:'2 weeks ago',
+        preview:['Carrie &amp; Lowell','Fetch the Bolt Cutters','A Moon Shaped Pool','For Emma'],
+        colors:['from-indigo-900 to-indigo-700','from-indigo-800 to-indigo-600','from-slate-800 to-slate-600','from-indigo-700 to-indigo-500'],
+      },
+      {
+        title:'Games With Something to Say',
+        description:'The canon of games that earn the word &ldquo;literary.&rdquo;',
+        count:6, isPublic:true, updated:'1 month ago',
+        preview:['Disco Elysium','Elden Ring','Hades','Undertale'],
+        colors:['from-slate-800 to-slate-600','from-slate-700 to-slate-500','from-rose-900 to-rose-700','from-slate-600 to-slate-400'],
+      },
+    ];
+
+    function listCard(l) {
+      const mosaicCols = l.preview.slice(0,4).map((title,i) => `
+        <div class="flex-1 flex items-end justify-start p-2" style="background:linear-gradient(to bottom,var(--from),var(--to));
+             --from:transparent;--to:transparent" class="bg-gradient-to-b ${l.colors[i] || 'from-lantern-600 to-lantern-800'}">
+          <span class="serif font-bold text-white leading-none select-none" style="font-size:2rem;opacity:.2">${title.replace(/&amp;/g,'&')[0]}</span>
+        </div>`).join('');
+
+      // Build mosaic manually with inline styles to avoid Tailwind dynamic class issues
+      const gradients = [
+        ['#78350f','#b45309'], // amber-900 to amber-700
+        ['#292524','#57534e'], // stone-800 to stone-600
+        ['#134e4a','#0f766e'], // teal-900 to teal-700
+        ['#1e1b4b','#4338ca'], // indigo-900 to indigo-700
+        ['#1e293b','#475569'], // slate-800 to slate-600
+        ['#4c0519','#9f1239'], // rose-900 to rose-700
+        ['#422006','#92400e'], // amber-900 variant
+        ['#1c1917','#44403c'], // stone variant
+      ];
+
+      const categoryGrad = {
+        Films:['#292524','#57534e'], Books:['#78350f','#b45309'],
+        Music:['#1e1b4b','#4338ca'], Games:['#1e293b','#475569'],
+      };
+
+      const cat = l.title.includes('Film') ? 'Films' : l.title.includes('Book') ? 'Books' :
+                  l.title.includes('Sound') ? 'Music' : 'Games';
+      const g = categoryGrad[cat] || ['#4a4639','#6b6652'];
+
+      const mosaic = l.preview.slice(0,4).map((title,i) => {
+        const gs = [
+          ['#78350f','#b45309'],['#292524','#57534e'],
+          ['#1e1b4b','#4338ca'],['#1e293b','#475569'],
+        ];
+        const [from, to] = gs[i] || ['#6b6652','#4a4639'];
+        const cleanTitle = title.replace(/&amp;/g,'&').replace(/&ldquo;/g,'"');
+        return `<div class="flex-1 flex items-end justify-start p-2"
+                     style="background:linear-gradient(to bottom,${from},${to})">
+          <span class="serif font-bold text-white leading-none select-none" style="font-size:2rem;opacity:.18">${cleanTitle[0]}</span>
+        </div>`;
+      }).join('');
+
+      const badges = l.preview.slice(0,3).map(t =>
+        `<span class="text-xs bg-lantern-50 border border-lantern-200 text-lantern-600 px-2 py-0.5 rounded">${t}</span>`
+      ).join('');
+
+      const extra = l.count > 3 ? `<span class="text-xs text-lantern-400 px-2 py-0.5">+${l.count-3} more</span>` : '';
+
+      return `<article class="bg-white border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
+        <div class="flex h-24">${mosaic}</div>
+        <div class="p-5">
+          <div class="flex items-start justify-between gap-3 mb-2">
+            <h2 class="serif font-bold text-lg text-lantern-900 group-hover:text-lantern-700 transition-colors leading-snug">${l.title}</h2>
+            ${!l.isPublic ? '<span class="text-xs bg-lantern-100 text-lantern-500 px-2 py-0.5 rounded flex-shrink-0 mt-0.5">Private</span>' : ''}
+          </div>
+          <p class="text-sm text-lantern-500 italic leading-relaxed mb-4">${l.description}</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">${badges}${extra}</div>
+          <div class="flex items-center justify-between text-xs text-lantern-400">
+            <span>${l.count} items</span>
+            <span>Updated ${l.updated}</span>
+          </div>
+        </div>
+      </article>`;
+    }
+
+    document.getElementById('lists-grid').innerHTML = LISTS.map(listCard).join('');
+  </script>
+</body>
+</html>

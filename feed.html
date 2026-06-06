@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lantern — Discovery Feed</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      safelist: [
+        'bg-emerald-50','text-emerald-700','border-emerald-200',
+        'from-lantern-500','to-lantern-700',
+      ],
+      theme: {
+        extend: {
+          colors: {
+            lantern: {
+              50:'#fafaf8', 100:'#f5f5f1', 200:'#ebe7e1', 300:'#ddd7ce',
+              400:'#cfc9ba', 500:'#c1bda6', 600:'#8b8772', 700:'#6b6652',
+              800:'#4a4639', 900:'#2a2622',
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia','Garamond','serif'],
+            sans:  ['system-ui','-apple-system','sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .serif { font-family: Georgia, Garamond, serif; }
+  </style>
+</head>
+<body class="bg-lantern-50 text-lantern-900 antialiased">
+
+  <div id="nav-root"></div>
+  <script src="nav.js"></script>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Feed column -->
+      <div class="lg:col-span-2">
+        <div class="mb-8">
+          <h1 class="serif text-4xl font-bold text-lantern-900 mb-1">Discovery Feed</h1>
+          <p class="text-lantern-500 text-sm">People with similar taste, and what they're experiencing</p>
+        </div>
+        <div id="feed-list"></div>
+        <div class="text-center py-8">
+          <button class="px-6 py-2.5 rounded font-medium bg-lantern-100 text-lantern-900 hover:bg-lantern-200 transition-colors text-sm">
+            Load More Activity
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white border border-lantern-200 rounded-lg p-6 sticky top-24">
+          <h3 class="serif font-bold text-lg text-lantern-900 mb-1">Smart Cohorts</h3>
+          <p class="text-xs text-lantern-500 mb-5">AI-grouped communities by shared taste</p>
+          <div id="cohorts-list" class="space-y-5"></div>
+          <button class="w-full mt-5 text-xs text-lantern-500 hover:text-lantern-700 transition-colors py-1">
+            Explore all cohorts →
+          </button>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <script>
+    // ── Data ────────────────────────────────────────────────────────
+    const ACTIVITY = [
+      {
+        id:'a1', userName:'Jordan Martinez', action:'rated',
+        title:'Norwegian Wood', creator:'Haruki Murakami', category:'Books',
+        rating:9, review:'A profound meditation on loss and the way grief reshapes everything we thought we knew.',
+        timestamp:'2 hours ago',
+      },
+      {
+        id:'a2', userName:'Sam Okonkwo', action:'completed',
+        title:'Eternal Sunshine of the Spotless Mind', creator:'Michel Gondry', category:'Movies',
+        rating:10, review:'A heartbreaking look at memory and the things we erase only to rediscover.',
+        timestamp:'5 hours ago',
+      },
+      {
+        id:'a3', userName:'Lisa Wong', action:'rated',
+        title:'Carrie &amp; Lowell', creator:'Sufjan Stevens', category:'Music',
+        rating:10, review:'An intimate masterpiece about grief and reconciliation. Returns to it every autumn.',
+        timestamp:'8 hours ago',
+      },
+      {
+        id:'a4', userName:"Marcus Johnson", action:'started',
+        title:"Baldur's Gate 3", creator:'Larian Studios', category:'Games',
+        review:'The scope and depth are overwhelming in the best way. Nothing prepares you for Act 2.',
+        timestamp:'12 hours ago',
+      },
+      {
+        id:'a5', userName:'Priya Patel', action:'rated',
+        title:'I May Destroy You', creator:'Michaela Coel', category:'TV',
+        rating:10, review:'The most formally brave television I have ever seen.',
+        timestamp:'1 day ago',
+      },
+      {
+        id:'a6', userName:'Thomas Reeves', action:'completed',
+        title:'The Remains of the Day', creator:'Kazuo Ishiguro', category:'Books',
+        rating:10, review:'Read it as a book about repression. Then as a book about Britain. Then as a book about yourself.',
+        timestamp:'1 day ago',
+      },
+    ];
+
+    const COHORTS = [
+      { name:'Murakami &amp; Wong Kar-wai Devotees', members:234, description:'Lovers of magical realism and visual poetry.', interests:['Kafka on the Shore','In the Mood for Love','Slow cinema'], match:94 },
+      { name:'Quiet Albums &amp; Long Books',        members:341, description:'Patient listeners and slow readers who prefer art that breathes.', interests:['Sufjan Stevens','Ishiguro','Literary fiction'], match:88 },
+      { name:'Television as Literature',            members:423, description:'Prestige TV treated with the rigour of novels.', interests:['I May Destroy You','The Bear','Severance'], match:85 },
+    ];
+
+    // ── Render feed ─────────────────────────────────────────────────
+    const actionLabel = { rated:'rated', completed:'finished', started:'started' };
+    const initials = name => name.split(' ').map(n=>n[0]).join('');
+
+    function feedCard(a) {
+      return `<article class="bg-white border border-lantern-200 rounded-lg p-6 mb-4 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+               style="background:linear-gradient(135deg,#c1bda6,#6b6652)">
+            <span class="serif text-xs font-bold text-white">${initials(a.userName)}</span>
+          </div>
+          <div class="flex-1 min-w-0 text-sm">
+            <span class="font-semibold text-lantern-900">${a.userName}</span>
+            <span class="text-lantern-500"> ${actionLabel[a.action] || a.action} </span>
+            <span class="serif font-semibold italic text-lantern-900">${a.title}</span>
+          </div>
+          <span class="text-xs text-lantern-400 flex-shrink-0">${a.timestamp}</span>
+        </div>
+
+        <div class="flex gap-4 mb-4">
+          <div class="w-11 h-16 rounded flex-shrink-0 flex items-center justify-center"
+               style="background:linear-gradient(to bottom,#c1bda6,#6b6652)">
+            <span class="serif font-bold text-white text-lg" style="opacity:.4">${a.title[0]}</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="serif font-semibold text-lantern-900 leading-tight mb-0.5">${a.title}</h3>
+            <p class="text-xs text-lantern-500 mb-2">${a.creator}</p>
+            <div class="flex items-center gap-2">
+              <span class="text-xs bg-lantern-100 text-lantern-600 px-2 py-0.5 rounded font-medium">${a.category}</span>
+              ${a.rating ? `<span class="text-xs font-semibold text-lantern-700">${a.rating}<span class="font-normal text-lantern-400">/10</span></span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        ${a.review ? `<blockquote class="border-l-2 border-lantern-300 pl-4 py-0.5">
+          <p class="text-sm text-lantern-600 italic leading-relaxed">&ldquo;${a.review}&rdquo;</p>
+        </blockquote>` : ''}
+      </article>`;
+    }
+
+    document.getElementById('feed-list').innerHTML = ACTIVITY.map(feedCard).join('');
+
+    // ── Render sidebar cohorts ───────────────────────────────────────
+    function cohortCard(c) {
+      return `<div class="pb-5 border-b border-lantern-100 last:border-b-0 last:pb-0">
+        <div class="flex items-start justify-between gap-2 mb-1">
+          <h4 class="serif font-semibold text-sm text-lantern-900 leading-snug">${c.name}</h4>
+          <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex-shrink-0">${c.match}%</span>
+        </div>
+        <p class="text-xs text-lantern-500 mb-2 leading-relaxed">${c.description}</p>
+        <p class="text-xs text-lantern-400 mb-3">${c.members.toLocaleString()} members</p>
+        <div class="flex flex-wrap gap-1 mb-3">
+          ${c.interests.slice(0,3).map(i=>`<span class="text-xs bg-lantern-50 border border-lantern-200 text-lantern-600 px-2 py-0.5 rounded">${i}</span>`).join('')}
+        </div>
+        <button class="w-full text-xs font-medium text-lantern-700 border border-lantern-300 rounded py-1.5 hover:bg-lantern-50 transition-colors">
+          Join Cohort
+        </button>
+      </div>`;
+    }
+
+    document.getElementById('cohorts-list').innerHTML = COHORTS.map(cohortCard).join('');
+  </script>
+</body>
+</html>

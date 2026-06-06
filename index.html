@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lantern — Alex Chen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      safelist: [
+        'from-amber-900','to-amber-700',
+        'from-stone-800','to-stone-600',
+        'from-teal-900','to-teal-700',
+        'from-indigo-900','to-indigo-700',
+        'from-slate-800','to-slate-600',
+        'from-rose-900','to-rose-700',
+        'bg-emerald-50','text-emerald-700','border-emerald-200','bg-emerald-400',
+        'bg-blue-50','text-blue-700','border-blue-200','bg-blue-400',
+        'bg-amber-50','text-amber-700','border-amber-200','bg-amber-400',
+      ],
+      theme: {
+        extend: {
+          colors: {
+            lantern: {
+              50:'#fafaf8', 100:'#f5f5f1', 200:'#ebe7e1', 300:'#ddd7ce',
+              400:'#cfc9ba', 500:'#c1bda6', 600:'#8b8772', 700:'#6b6652',
+              800:'#4a4639', 900:'#2a2622',
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia','Garamond','serif'],
+            sans:  ['system-ui','-apple-system','sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .serif { font-family: Georgia, Garamond, serif; }
+    .clamp2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
+  </style>
+</head>
+<body class="bg-lantern-50 text-lantern-900 antialiased">
+
+  <div id="nav-root"></div>
+  <script src="nav.js"></script>
+
+  <!-- Profile Header -->
+  <div class="bg-white border-b border-lantern-200 mb-10">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="flex items-start gap-8 mb-8">
+
+        <!-- Avatar -->
+        <div class="flex-shrink-0 w-20 h-20 rounded-full flex items-center justify-center ring-4 ring-lantern-100"
+             style="background:linear-gradient(135deg,#8b8772,#4a4639)">
+          <span class="serif font-bold text-2xl text-white">A</span>
+        </div>
+
+        <!-- Name / bio / stats -->
+        <div class="flex-1 min-w-0">
+          <h1 class="serif text-3xl font-bold text-lantern-900 mb-1 leading-tight">Alex Chen</h1>
+          <p class="text-lantern-600 text-sm mb-4">Chasing the feeling that good art leaves behind.</p>
+          <div class="flex items-center gap-6">
+            <div class="text-center">
+              <div id="stat-total" class="serif text-xl font-bold text-lantern-900">—</div>
+              <div class="text-xs text-lantern-400 uppercase tracking-wide">Catalogued</div>
+            </div>
+            <div class="w-px h-8 bg-lantern-200"></div>
+            <div class="text-center">
+              <div id="stat-completed" class="serif text-xl font-bold text-lantern-900">—</div>
+              <div class="text-xs text-lantern-400 uppercase tracking-wide">Completed</div>
+            </div>
+            <div class="w-px h-8 bg-lantern-200"></div>
+            <div class="text-center">
+              <div id="stat-progress" class="serif text-xl font-bold text-lantern-900">—</div>
+              <div class="text-xs text-lantern-400 uppercase tracking-wide">In Progress</div>
+            </div>
+            <div class="w-px h-8 bg-lantern-200"></div>
+            <div class="text-center">
+              <div id="stat-rated" class="serif text-xl font-bold text-lantern-900">—</div>
+              <div class="text-xs text-lantern-400 uppercase tracking-wide">Rated</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join date + edit -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <span class="text-xs text-lantern-400">Member since February 2025</span>
+          <button class="px-4 py-2 text-sm font-medium rounded bg-lantern-100 text-lantern-900 hover:bg-lantern-200 transition-colors">
+            Edit Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Taste summary -->
+      <div class="border-l-2 border-lantern-700 pl-6 py-1">
+        <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-2">Taste Profile</p>
+        <p class="serif italic text-base leading-relaxed text-lantern-800">
+          &ldquo;You enjoy magical realism, existential comedy, and emotionally restrained storytelling.
+          Your taste leans toward intimate narratives and artists who challenge convention without abandoning warmth.&rdquo;
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collections -->
+  <main class="max-w-7xl mx-auto px-6 pb-16 space-y-16">
+
+    <!-- Pinned Favorites -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">Pinned Favorites</h2>
+        <span class="px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">4</span>
+      </div>
+      <div id="grid-favorites" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- Books -->
+    <section id="sec-books" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">Books</h2>
+        <span id="ct-books" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
+      </div>
+      <div id="grid-books" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- Movies -->
+    <section id="sec-movies" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">Movies</h2>
+        <span id="ct-movies" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
+      </div>
+      <div id="grid-movies" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- TV -->
+    <section id="sec-tv" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">TV</h2>
+        <span id="ct-tv" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
+      </div>
+      <div id="grid-tv" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- Music -->
+    <section id="sec-music" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">Music</h2>
+        <span id="ct-music" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
+      </div>
+      <div id="grid-music" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- Games -->
+    <section id="sec-games" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">Games</h2>
+        <span id="ct-games" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
+      </div>
+      <div id="grid-games" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- Podcasts -->
+    <section id="sec-podcasts" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <h2 class="serif text-2xl font-bold text-lantern-900">Podcasts</h2>
+        <span id="ct-podcasts" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
+      </div>
+      <div id="grid-podcasts" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    // ── Data ────────────────────────────────────────────────────────
+    const MEDIA = [
+      { id:'1',  title:'Kafka on the Shore',           creator:'Haruki Murakami',              category:'books',    status:'completed',          rating:9,  review:'A masterpiece of magical realism and philosophical depth.' },
+      { id:'7',  title:'The Brothers Karamazov',       creator:'Fyodor Dostoevsky',            category:'books',    status:'currently-engaging', rating:0 },
+      { id:'9',  title:'The Remains of the Day',       creator:'Kazuo Ishiguro',               category:'books',    status:'completed',          rating:10, review:'Devastating in its restraint. Stevens will haunt me.' },
+      { id:'10', title:'Never Let Me Go',              creator:'Kazuo Ishiguro',               category:'books',    status:'want-to-experience', rating:0 },
+      { id:'2',  title:'In the Mood for Love',         creator:'Wong Kar-wai',                 category:'movies',   status:'completed',          rating:10, review:'Visual poetry. Every frame a painting, every silence a sentence.' },
+      { id:'3',  title:'Dune: Part Two',               creator:'Denis Villeneuve',             category:'movies',   status:'completed',          rating:8 },
+      { id:'11', title:'Yi Yi',                        creator:'Edward Yang',                  category:'movies',   status:'completed',          rating:10, review:'Three hours that feel necessary rather than long.' },
+      { id:'12', title:'The Tree of Life',             creator:'Terrence Malick',              category:'movies',   status:'want-to-experience', rating:0 },
+      { id:'6',  title:'Severance',                    creator:'Dan Erickson',                 category:'tv',       status:'completed',          rating:9,  review:'Haunting. Every episode left me reeling.' },
+      { id:'13', title:'The Bear',                     creator:'Christopher Storer',           category:'tv',       status:'currently-engaging', rating:8 },
+      { id:'14', title:'I May Destroy You',            creator:'Michaela Coel',                category:'tv',       status:'completed',          rating:10, review:'Raw and formally daring. Nothing else like it.' },
+      { id:'4',  title:'Carrie &amp; Lowell',          creator:'Sufjan Stevens',               category:'music',    status:'completed',          rating:10, review:'An elegy I return to when language fails.' },
+      { id:'15', title:'Fetch the Bolt Cutters',       creator:'Fiona Apple',                  category:'music',    status:'completed',          rating:9 },
+      { id:'16', title:'For Emma, Forever Ago',        creator:'Bon Iver',                     category:'music',    status:'want-to-experience', rating:0 },
+      { id:'5',  title:'Elden Ring',                   creator:'FromSoftware',                 category:'games',    status:'currently-engaging', rating:9 },
+      { id:'17', title:'Disco Elysium',                creator:'ZA/UM',                        category:'games',    status:'completed',          rating:10, review:'The most literary game ever made. Plays like a novel.' },
+      { id:'18', title:'Hollow Knight',                creator:'Team Cherry',                  category:'games',    status:'want-to-experience', rating:0 },
+      { id:'8',  title:'Slow Burn',                    creator:'Leon Neyfakh',                 category:'podcasts', status:'completed',          rating:8,  review:'Exceptional narrative journalism. Season 1 is essential.' },
+      { id:'19', title:"Conan O'Brien Needs a Friend", creator:"Conan O'Brien",                category:'podcasts', status:'currently-engaging', rating:7 },
+      { id:'20', title:"You're Wrong About",           creator:'Michael Hobbes &amp; Sarah Marshall', category:'podcasts', status:'want-to-experience', rating:0 },
+    ];
+
+    const FAVORITES_IDS = ['1','2','9','17'];
+
+    // ── Helpers ─────────────────────────────────────────────────────
+    const GRADIENTS = {
+      books:'from-amber-900 to-amber-700', movies:'from-stone-800 to-stone-600',
+      tv:'from-teal-900 to-teal-700',      music:'from-indigo-900 to-indigo-700',
+      games:'from-slate-800 to-slate-600', podcasts:'from-rose-900 to-rose-700',
+    };
+
+    const STATUS = {
+      'completed':          { badge:'bg-emerald-50 text-emerald-700 border border-emerald-200', dot:'bg-emerald-400', label:'Completed' },
+      'currently-engaging': { badge:'bg-blue-50 text-blue-700 border border-blue-200',          dot:'bg-blue-400',    label:'Currently Engaging' },
+      'want-to-experience': { badge:'bg-amber-50 text-amber-700 border border-amber-200',       dot:'bg-amber-400',   label:'Want to Experience' },
+    };
+
+    function card(item) {
+      const g = GRADIENTS[item.category];
+      const s = STATUS[item.status];
+      const init = item.title.replace(/^(A |An |The )/,'')[0].toUpperCase();
+      return `<div class="group cursor-pointer">
+        <div class="relative w-full mb-3 rounded overflow-hidden" style="aspect-ratio:2/3">
+          <div class="w-full h-full bg-gradient-to-b ${g} flex items-end p-3">
+            <span class="serif font-bold text-white select-none leading-none" style="font-size:3.5rem;opacity:.18">${init}</span>
+          </div>
+          <div class="absolute top-2 right-2 w-2 h-2 rounded-full ${s.dot}" style="box-shadow:0 0 0 2px rgba(255,255,255,.3)"></div>
+        </div>
+        <h4 class="serif font-semibold text-sm leading-snug text-lantern-900 mb-0.5 clamp2">${item.title}</h4>
+        <p class="text-xs text-lantern-400 truncate mb-1">${item.creator}</p>
+        <div class="flex items-center justify-between">
+          <span class="text-xs px-2 py-0.5 rounded-full font-medium ${s.badge}">${s.label}</span>
+          ${item.rating > 0 ? `<span class="text-xs font-semibold text-lantern-600">${item.rating}<span class="font-normal text-lantern-400">/10</span></span>` : ''}
+        </div>
+        ${item.review ? `<p class="text-xs text-lantern-400 italic leading-relaxed mt-1 clamp2">${item.review}</p>` : ''}
+      </div>`;
+    }
+
+    // ── Render ───────────────────────────────────────────────────────
+    document.getElementById('stat-total').textContent     = MEDIA.length;
+    document.getElementById('stat-completed').textContent = MEDIA.filter(m=>m.status==='completed').length;
+    document.getElementById('stat-progress').textContent  = MEDIA.filter(m=>m.status==='currently-engaging').length;
+    document.getElementById('stat-rated').textContent     = MEDIA.filter(m=>m.rating>0).length;
+
+    document.getElementById('grid-favorites').innerHTML =
+      MEDIA.filter(m => FAVORITES_IDS.includes(m.id)).map(card).join('');
+
+    ['books','movies','tv','music','games','podcasts'].forEach(cat => {
+      const items = MEDIA.filter(m => m.category === cat);
+      if (!items.length) return;
+      document.getElementById(`sec-${cat}`).classList.remove('hidden');
+      document.getElementById(`ct-${cat}`).textContent = items.length;
+      document.getElementById(`grid-${cat}`).innerHTML = items.map(card).join('');
+    });
+  </script>
+</body>
+</html>
