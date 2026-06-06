@@ -5,6 +5,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.6.0] — 2026-06-06
+**Landing Page & Site Restructure**
+
+### Added
+- `index.html` — New marketing homepage / landing page for first-time visitors. Structured as a rocket pitch with seven sections: hero (headline + dual CTA), the gap (dark panel showing what no existing social network covers), how it works (three pillars: identity / neighbors / community), the platform (six feature cards linking to every page), principles (Taste over Popularity, Depth over Virality, Global by Default), taste intelligence (AI archetypes, dimensions, neighbors), and a final CTA. Includes a footer with navigation to all pages.
+- `profile.html` — The former `index.html` profile page, now at its own URL
+
+### Changed
+- `nav.js` — "Profile" nav link updated from `index.html` → `profile.html`; logo link remains `index.html` (returns to landing)
+- `onboarding.html` — Step 6 "Go to your profile →" CTA updated from `index.html` → `profile.html`
+- `README.md` — Updated file structure, running instructions, and feature list to reflect the new homepage and `profile.html` URL
+
+---
+
 ## [0.5.0] — 2026-06-06
 **Feature Expansion: Onboarding, Social Layer, & Global Content**
 

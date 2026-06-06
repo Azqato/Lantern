@@ -3,21 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lantern — Alex Chen</title>
+  <title>Lantern — Discover yourself through culture</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      safelist: [
-        'from-amber-900','to-amber-700',
-        'from-stone-800','to-stone-600',
-        'from-teal-900','to-teal-700',
-        'from-indigo-900','to-indigo-700',
-        'from-slate-800','to-slate-600',
-        'from-rose-900','to-rose-700',
-        'bg-emerald-50','text-emerald-700','border-emerald-200','bg-emerald-400',
-        'bg-blue-50','text-blue-700','border-blue-200','bg-blue-400',
-        'bg-amber-50','text-amber-700','border-amber-200','bg-amber-400',
-      ],
       theme: {
         extend: {
           colors: {
@@ -38,9 +27,9 @@
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; }
     .serif { font-family: Georgia, Garamond, serif; }
-    .clamp2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-    .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+    html { scroll-behavior: smooth; }
+    .feature-card:hover .feature-arrow { transform: translateX(4px); }
+    .feature-arrow { transition: transform .2s ease; display: inline-block; }
   </style>
 </head>
 <body class="bg-lantern-50 text-lantern-900 antialiased">
@@ -48,337 +37,381 @@
   <div id="nav-root"></div>
   <script src="nav.js"></script>
 
-  <!-- Profile Header -->
-  <div class="bg-white border-b border-lantern-200 mb-8">
-    <div class="max-w-7xl mx-auto px-6 py-12">
-      <div class="flex items-start gap-8 mb-8">
+  <!-- ─── 1. HERO ──────────────────────────────────────────────────── -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-white border-b border-lantern-200">
+    <div class="max-w-3xl">
 
-        <!-- Avatar -->
-        <div class="flex-shrink-0 w-20 h-20 rounded-full flex items-center justify-center ring-4 ring-lantern-100"
+      <!-- Logotype -->
+      <div class="flex items-center justify-center gap-3 mb-10">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center"
              style="background:linear-gradient(135deg,#8b8772,#4a4639)">
-          <span class="serif font-bold text-2xl text-white">A</span>
+          <span class="serif font-bold text-xl text-white">L</span>
         </div>
+        <span class="serif text-2xl font-bold text-lantern-900 tracking-tight">Lantern</span>
+      </div>
 
-        <!-- Name / archetype / bio / stats -->
-        <div class="flex-1 min-w-0">
-          <h1 class="serif text-3xl font-bold text-lantern-900 mb-2 leading-tight">Alex Chen</h1>
-          <div id="archetype-badge" class="mb-3"></div>
-          <p class="text-lantern-600 text-sm mb-4">Chasing the feeling that good art leaves behind.</p>
-          <div class="flex items-center gap-6">
-            <div class="text-center">
-              <div id="stat-total" class="serif text-xl font-bold text-lantern-900">—</div>
-              <div class="text-xs text-lantern-400 uppercase tracking-wide">Catalogued</div>
-            </div>
-            <div class="w-px h-8 bg-lantern-200"></div>
-            <div class="text-center">
-              <div id="stat-completed" class="serif text-xl font-bold text-lantern-900">—</div>
-              <div class="text-xs text-lantern-400 uppercase tracking-wide">Completed</div>
-            </div>
-            <div class="w-px h-8 bg-lantern-200"></div>
-            <div class="text-center">
-              <div id="stat-progress" class="serif text-xl font-bold text-lantern-900">—</div>
-              <div class="text-xs text-lantern-400 uppercase tracking-wide">In Progress</div>
-            </div>
-            <div class="w-px h-8 bg-lantern-200"></div>
-            <div class="text-center">
-              <div id="stat-rated" class="serif text-xl font-bold text-lantern-900">—</div>
-              <div class="text-xs text-lantern-400 uppercase tracking-wide">Rated</div>
-            </div>
-          </div>
+      <h1 class="serif font-bold text-lantern-900 leading-tight mb-6"
+          style="font-size:clamp(2.5rem,6vw,4.5rem)">
+        Discover yourself<br>through culture.
+      </h1>
+
+      <p class="text-lantern-500 leading-relaxed mb-10 mx-auto"
+         style="font-size:1.125rem;max-width:32rem">
+        The social platform organized entirely around taste — not followers, not virality.
+        Books, films, music, games, and everything that truly moves you.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+        <a href="onboarding.html"
+           class="px-8 py-3.5 rounded font-semibold bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-base">
+          Get Started — it's free
+        </a>
+        <a href="#how-it-works"
+           class="px-8 py-3.5 rounded font-semibold text-lantern-700 border border-lantern-200 hover:bg-lantern-50 transition-colors text-base">
+          See how it works ↓
+        </a>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs text-lantern-400">
+        <span>6 media categories</span>
+        <span class="w-1 h-1 rounded-full bg-lantern-300 flex-shrink-0"></span>
+        <span>AI taste graph</span>
+        <span class="w-1 h-1 rounded-full bg-lantern-300 flex-shrink-0"></span>
+        <span>Global by default</span>
+        <span class="w-1 h-1 rounded-full bg-lantern-300 flex-shrink-0"></span>
+        <span>No algorithm-driven timeline</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 2. THE GAP ───────────────────────────────────────────────── -->
+  <section class="py-24 px-6" style="background:#2a2622">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-6" style="color:#8b8772">
+        The gap
+      </p>
+      <h2 class="serif font-bold leading-tight mb-12" style="font-size:clamp(1.75rem,4vw,3rem);color:white">
+        Every social network has a purpose.<br>None are built for culture.
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div class="rounded-lg p-5 text-left" style="background:#3a3530">
+          <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:#8b8772">Instagram</p>
+          <p class="serif italic" style="color:#cfc9ba;font-size:1.125rem">Appearance</p>
         </div>
-
-        <!-- Join date + edit -->
-        <div class="flex items-center gap-3 flex-shrink-0">
-          <span class="text-xs text-lantern-400">Member since February 2025</span>
-          <button class="px-4 py-2 text-sm font-medium rounded bg-lantern-100 text-lantern-900 hover:bg-lantern-200 transition-colors">
-            Edit Profile
-          </button>
+        <div class="rounded-lg p-5 text-left" style="background:#3a3530">
+          <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:#8b8772">TikTok</p>
+          <p class="serif italic" style="color:#cfc9ba;font-size:1.125rem">Entertainment</p>
+        </div>
+        <div class="rounded-lg p-5 text-left" style="background:#3a3530">
+          <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:#8b8772">LinkedIn</p>
+          <p class="serif italic" style="color:#cfc9ba;font-size:1.125rem">Career</p>
+        </div>
+        <div class="rounded-lg p-5 text-left" style="background:#3a3530">
+          <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:#8b8772">X</p>
+          <p class="serif italic" style="color:#cfc9ba;font-size:1.125rem">Opinions</p>
         </div>
       </div>
 
-      <!-- Taste summary -->
-      <div class="border-l-2 border-lantern-700 pl-6 py-1 mb-6">
-        <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-2">Taste Profile</p>
-        <p class="serif italic text-base leading-relaxed text-lantern-800">
+      <div class="rounded-lg p-6 border-2 mx-auto max-w-xs" style="border-color:#6b6652;background:#2a2622">
+        <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:#8b8772">Lantern</p>
+        <p class="serif italic font-bold text-white" style="font-size:1.25rem">Taste</p>
+      </div>
+
+      <p class="text-sm italic mt-10 leading-relaxed" style="color:#8b8772;max-width:36rem;margin-left:auto;margin-right:auto">
+        &ldquo;None primarily organize around taste, intellectual identity, shared artistic interests,
+        or long-term cultural journeys.&rdquo;
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 3. HOW IT WORKS ──────────────────────────────────────────── -->
+  <section id="how-it-works" class="py-24 px-6 bg-lantern-50">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 text-center mb-16">
+        What Lantern does
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <div>
+          <p class="serif font-bold text-lantern-200 mb-3" style="font-size:3.5rem;line-height:1">01</p>
+          <h3 class="serif text-xl font-bold text-lantern-900 mb-3">Your taste identity.</h3>
+          <p class="text-sm text-lantern-500 leading-relaxed">
+            Every book read, film finished, album loved — logged, rated, and reflected back to you
+            as a living cultural profile. An AI-generated Cultural Archetype. Five Taste Dimensions.
+            A portrait of who you actually are.
+          </p>
+        </div>
+
+        <div>
+          <p class="serif font-bold text-lantern-200 mb-3" style="font-size:3.5rem;line-height:1">02</p>
+          <h3 class="serif text-xl font-bold text-lantern-900 mb-3">Your people.</h3>
+          <p class="text-sm text-lantern-500 leading-relaxed">
+            Not who you follow — who you belong with. Lantern finds Taste Neighbors: people whose
+            cultural graph overlaps with yours in ways that matter. Connected by what you love,
+            not by who you happen to know.
+          </p>
+        </div>
+
+        <div>
+          <p class="serif font-bold text-lantern-200 mb-3" style="font-size:3.5rem;line-height:1">03</p>
+          <h3 class="serif text-xl font-bold text-lantern-900 mb-3">Your community.</h3>
+          <p class="text-sm text-lantern-500 leading-relaxed">
+            AI-generated Smart Cohorts form automatically around shared taste — no admins,
+            no group creation, no manual joining. Just people who inevitably love the same things,
+            gathered in the same place.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 4. THE PLATFORM ──────────────────────────────────────────── -->
+  <section id="features" class="py-24 px-6 bg-white border-t border-lantern-200">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 text-center mb-4">
+        The platform
+      </p>
+      <h2 class="serif text-3xl font-bold text-lantern-900 text-center mb-3">
+        Everything in one place.
+      </h2>
+      <p class="text-sm text-lantern-500 text-center mb-14">
+        Six pages. One coherent taste identity.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- Profile -->
+        <a href="profile.html" class="feature-card bg-lantern-50 border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group block">
+          <div class="h-16 flex items-end justify-start p-3"
+               style="background:linear-gradient(135deg,#6b6652,#2a2622)">
+            <span class="serif font-bold text-white select-none" style="font-size:2rem;opacity:.25">P</span>
+          </div>
+          <div class="p-5">
+            <h3 class="serif font-bold text-base text-lantern-900 mb-1">
+              Profile <span class="feature-arrow">→</span>
+            </h3>
+            <p class="text-xs text-lantern-500 leading-relaxed">
+              Your cultural identity in one place. Collections across 6 categories, your archetype,
+              taste dimensions, pinned favorites, and currently engaging items.
+            </p>
+          </div>
+        </a>
+
+        <!-- Feed -->
+        <a href="feed.html" class="feature-card bg-lantern-50 border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group block">
+          <div class="h-16 flex items-end justify-start p-3"
+               style="background:linear-gradient(135deg,#134e4a,#0f766e)">
+            <span class="serif font-bold text-white select-none" style="font-size:2rem;opacity:.25">F</span>
+          </div>
+          <div class="p-5">
+            <h3 class="serif font-bold text-base text-lantern-900 mb-1">
+              Discovery Feed <span class="feature-arrow">→</span>
+            </h3>
+            <p class="text-xs text-lantern-500 leading-relaxed">
+              What people like you are reading, watching, and listening to — with a contextual reason
+              for every item. Taste neighbors, not influencers.
+            </p>
+          </div>
+        </a>
+
+        <!-- Lists -->
+        <a href="lists.html" class="feature-card bg-lantern-50 border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group block">
+          <div class="h-16 flex items-end justify-start p-3"
+               style="background:linear-gradient(135deg,#78350f,#b45309)">
+            <span class="serif font-bold text-white select-none" style="font-size:2rem;opacity:.25">L</span>
+          </div>
+          <div class="p-5">
+            <h3 class="serif font-bold text-base text-lantern-900 mb-1">
+              Lists <span class="feature-arrow">→</span>
+            </h3>
+            <p class="text-xs text-lantern-500 leading-relaxed">
+              Curated collections as shareable social objects. Films for slow mornings. Books that
+              rewired something. Fork a list you love and make it your own.
+            </p>
+          </div>
+        </a>
+
+        <!-- Cohorts -->
+        <a href="cohorts.html" class="feature-card bg-lantern-50 border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group block">
+          <div class="h-16 flex items-end justify-start p-3"
+               style="background:linear-gradient(135deg,#1e1b4b,#4338ca)">
+            <span class="serif font-bold text-white select-none" style="font-size:2rem;opacity:.25">C</span>
+          </div>
+          <div class="p-5">
+            <h3 class="serif font-bold text-base text-lantern-900 mb-1">
+              Smart Cohorts <span class="feature-arrow">→</span>
+            </h3>
+            <p class="text-xs text-lantern-500 leading-relaxed">
+              AI-matched micro-communities built from overlapping taste profiles. Find the groups
+              that already feel like home before you even knew they existed.
+            </p>
+          </div>
+        </a>
+
+        <!-- Search -->
+        <a href="search.html" class="feature-card bg-lantern-50 border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group block">
+          <div class="h-16 flex items-end justify-start p-3"
+               style="background:linear-gradient(135deg,#292524,#57534e)">
+            <span class="serif font-bold text-white select-none" style="font-size:2rem;opacity:.25">S</span>
+          </div>
+          <div class="p-5">
+            <h3 class="serif font-bold text-base text-lantern-900 mb-1">
+              Search <span class="feature-arrow">→</span>
+            </h3>
+            <p class="text-xs text-lantern-500 leading-relaxed">
+              Search by title, creator, or theme — Grief, Memory, Coming of Age, Nostalgia —
+              across every medium simultaneously. Find taste neighbors by name or by affinity.
+            </p>
+          </div>
+        </a>
+
+        <!-- Get Started -->
+        <a href="onboarding.html" class="feature-card bg-lantern-50 border border-lantern-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group block">
+          <div class="h-16 flex items-end justify-start p-3"
+               style="background:linear-gradient(135deg,#4c0519,#9f1239)">
+            <span class="serif font-bold text-white select-none" style="font-size:2rem;opacity:.25">↗</span>
+          </div>
+          <div class="p-5">
+            <h3 class="serif font-bold text-base text-lantern-900 mb-1">
+              Get Started <span class="feature-arrow">→</span>
+            </h3>
+            <p class="text-xs text-lantern-500 leading-relaxed">
+              Build your taste identity in six steps. Pick what you love, see your profile generated,
+              join your first cohorts. Takes less than five minutes.
+            </p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 5. PRINCIPLES ────────────────────────────────────────────── -->
+  <section class="py-24 px-6 bg-lantern-50 border-t border-lantern-200">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-14 text-center">
+        The principles
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <div class="border-l-2 border-lantern-700 pl-5">
+          <h3 class="serif font-bold text-lantern-900 mb-2">Taste over Popularity</h3>
+          <p class="text-sm text-lantern-500 leading-relaxed">
+            Follower counts don't determine what you discover. Cultural compatibility does.
+            The best-rated work by someone with 12 followers matters more than a viral take
+            from someone with 2 million.
+          </p>
+        </div>
+
+        <div class="border-l-2 border-lantern-700 pl-5">
+          <h3 class="serif font-bold text-lantern-900 mb-2">Depth over Virality</h3>
+          <p class="text-sm text-lantern-500 leading-relaxed">
+            Thoughtful reviews over hot takes. Long books over short clips. Lantern is built
+            for people who sit with things — who watch a film twice, who underline passages,
+            who return to albums years later.
+          </p>
+        </div>
+
+        <div class="border-l-2 border-lantern-700 pl-5">
+          <h3 class="serif font-bold text-lantern-900 mb-2">Global by Default</h3>
+          <p class="text-sm text-lantern-500 leading-relaxed">
+            Bong Joon-ho. Toni Morrison. Edward Yang. Hirokazu Kore-eda. Solange.
+            Great culture crosses every border. Lantern is built for all of it — not as
+            a category, but as the default.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 6. AI SECTION ────────────────────────────────────────────── -->
+  <section class="py-24 px-6" style="background:#2a2622">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-6 text-center" style="color:#8b8772">
+        Taste intelligence
+      </p>
+      <h2 class="serif text-3xl font-bold text-center mb-8 leading-tight" style="color:white">
+        AI as guide,<br>not replacement.
+      </h2>
+      <div class="border-l-2 pl-6 py-1 mb-10" style="border-color:#6b6652">
+        <p class="serif italic leading-relaxed" style="color:#cfc9ba;font-size:1rem">
           &ldquo;You enjoy magical realism, existential comedy, and emotionally restrained storytelling.
-          Your taste leans toward intimate narratives and artists who challenge convention without abandoning warmth.&rdquo;
+          Your taste leans toward intimate narratives and artists who challenge convention
+          without abandoning warmth.&rdquo;
         </p>
+        <p class="text-xs mt-3" style="color:#8b8772">— AI-generated taste summary</p>
       </div>
-
-      <!-- Taste Dimensions -->
-      <div class="pl-8">
-        <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-4">Taste Dimensions</p>
-        <div id="dimensions-list" class="space-y-3 max-w-lg"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div class="rounded-lg p-4 text-center" style="background:#3a3530">
+          <p class="serif font-bold text-white mb-1">Archetypes</p>
+          <p class="text-xs leading-relaxed" style="color:#8b8772">A single evocative label for how you engage with art</p>
+        </div>
+        <div class="rounded-lg p-4 text-center" style="background:#3a3530">
+          <p class="serif font-bold text-white mb-1">Dimensions</p>
+          <p class="text-xs leading-relaxed" style="color:#8b8772">Five axes that map your aesthetic preferences</p>
+        </div>
+        <div class="rounded-lg p-4 text-center" style="background:#3a3530">
+          <p class="serif font-bold text-white mb-1">Neighbors</p>
+          <p class="text-xs leading-relaxed" style="color:#8b8772">People whose taste graph overlaps with yours</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Currently Engaging -->
-  <div class="max-w-7xl mx-auto px-6 mb-10">
-    <div class="flex items-center gap-3 mb-5">
-      <span class="w-2.5 h-2.5 rounded-full bg-blue-400 flex-shrink-0 pulse-dot"></span>
-      <h2 class="serif text-2xl font-bold text-lantern-900">Currently Engaging</h2>
-    </div>
-    <div id="grid-engaging" class="flex gap-5 overflow-x-auto pb-2"></div>
-  </div>
-
-  <!-- Collections + Sidebar -->
-  <main class="max-w-7xl mx-auto px-6 pb-16">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-      <!-- Collections column -->
-      <div class="lg:col-span-3 space-y-16">
-
-        <!-- Pinned Favorites -->
-        <section>
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">Pinned Favorites</h2>
-            <span id="ct-favorites" class="px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700"></span>
-          </div>
-          <div id="grid-favorites" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- Books -->
-        <section id="sec-books" class="hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">Books</h2>
-            <span id="ct-books" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
-          </div>
-          <div id="grid-books" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- Movies -->
-        <section id="sec-movies" class="hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">Movies</h2>
-            <span id="ct-movies" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
-          </div>
-          <div id="grid-movies" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- TV -->
-        <section id="sec-tv" class="hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">TV</h2>
-            <span id="ct-tv" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
-          </div>
-          <div id="grid-tv" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- Music -->
-        <section id="sec-music" class="hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">Music</h2>
-            <span id="ct-music" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
-          </div>
-          <div id="grid-music" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- Games -->
-        <section id="sec-games" class="hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">Games</h2>
-            <span id="ct-games" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
-          </div>
-          <div id="grid-games" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- Podcasts -->
-        <section id="sec-podcasts" class="hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <h2 class="serif text-2xl font-bold text-lantern-900">Podcasts</h2>
-            <span id="ct-podcasts" class="px-3 py-1 rounded-full text-xs font-medium bg-lantern-100 text-lantern-700"></span>
-          </div>
-          <div id="grid-podcasts" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
+  <!-- ─── 7. FINAL CTA ─────────────────────────────────────────────── -->
+  <section class="py-32 px-6 bg-white text-center border-t border-lantern-200">
+    <div class="max-w-2xl mx-auto">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-8"
+           style="background:linear-gradient(135deg,#8b8772,#4a4639)">
+        <span class="serif font-bold text-lg text-white">L</span>
       </div>
-
-      <!-- Taste Neighbors sidebar -->
-      <aside class="lg:col-span-1">
-        <div class="bg-white border border-lantern-200 rounded-lg p-5 sticky top-24">
-          <h3 class="serif font-bold text-base text-lantern-900 mb-1">Taste Neighbors</h3>
-          <p class="text-xs text-lantern-500 mb-5">People whose taste overlaps with yours</p>
-          <div id="neighbors-list" class="space-y-5"></div>
-        </div>
-      </aside>
-
+      <h2 class="serif font-bold leading-tight text-lantern-900 mb-6"
+          style="font-size:clamp(2rem,5vw,3.5rem)">
+        Ready to find yourself<br>in culture?
+      </h2>
+      <p class="text-lantern-500 mb-10 leading-relaxed">
+        Free to use. No algorithm-driven timeline. No popularity contests.<br>
+        Just the things you love, and the people who love them too.
+      </p>
+      <a href="onboarding.html"
+         class="inline-block px-10 py-4 rounded font-semibold bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-base mb-6">
+        Get Started →
+      </a>
+      <p class="text-xs text-lantern-400">
+        Already have a profile?
+        <a href="profile.html" class="text-lantern-600 hover:text-lantern-900 transition-colors underline underline-offset-2">
+          Go to your profile →
+        </a>
+      </p>
     </div>
-  </main>
+  </section>
 
-  <script>
-    // ── User data ────────────────────────────────────────────────────
-    const PLACEHOLDER_USER = {
-      name: 'Alex Chen',
-      archetype: 'The Slow Cinema Devotee',
-    };
-
-    const ARCHETYPES = [
-      'The Slow Cinema Devotee',
-      'The Literary Nomad',
-      'The Melancholy Optimist',
-      'The Existential Gamer',
-      'The Quiet Album Collector',
-    ];
-
-    const TASTE_DIMENSIONS = [
-      { label: 'Narrative Complexity', score: 8 },
-      { label: 'Emotional Intensity',  score: 7 },
-      { label: 'Experimental',         score: 5 },
-      { label: 'Intimacy of Scale',    score: 9 },
-      { label: 'Cross-Cultural Range', score: 6 },
-    ];
-
-    const TASTE_NEIGHBORS = [
-      { name:'Jordan Martinez', initials:'JM', match:91, shared:'In the Mood for Love' },
-      { name:'Sam Okonkwo',     initials:'SO', match:87, shared:'Disco Elysium' },
-      { name:'Priya Patel',     initials:'PP', match:83, shared:'Carrie & Lowell' },
-      { name:'Lisa Wong',       initials:'LW', match:79, shared:'Kafka on the Shore' },
-    ];
-
-    // ── Media data ───────────────────────────────────────────────────
-    const MEDIA = [
-      { id:'1',  title:'Kafka on the Shore',           creator:'Haruki Murakami',                    category:'books',    status:'completed',          rating:9,  review:'A masterpiece of magical realism and philosophical depth.' },
-      { id:'7',  title:'The Brothers Karamazov',       creator:'Fyodor Dostoevsky',                  category:'books',    status:'currently-engaging', rating:0 },
-      { id:'9',  title:'The Remains of the Day',       creator:'Kazuo Ishiguro',                     category:'books',    status:'completed',          rating:10, review:'Devastating in its restraint. Stevens will haunt me.' },
-      { id:'10', title:'Never Let Me Go',              creator:'Kazuo Ishiguro',                     category:'books',    status:'want-to-experience', rating:0 },
-      { id:'21', title:'Beloved',                      creator:'Toni Morrison',                      category:'books',    status:'completed',          rating:10, review:'Language as wound and salve simultaneously.' },
-      { id:'2',  title:'In the Mood for Love',         creator:'Wong Kar-wai',                       category:'movies',   status:'completed',          rating:10, review:'Visual poetry. Every frame a painting, every silence a sentence.' },
-      { id:'3',  title:'Dune: Part Two',               creator:'Denis Villeneuve',                   category:'movies',   status:'completed',          rating:8 },
-      { id:'11', title:'Yi Yi',                        creator:'Edward Yang',                        category:'movies',   status:'completed',          rating:10, review:'Three hours that feel necessary rather than long.' },
-      { id:'12', title:'The Tree of Life',             creator:'Terrence Malick',                    category:'movies',   status:'want-to-experience', rating:0 },
-      { id:'22', title:'Shoplifters',                  creator:'Hirokazu Kore-eda',                  category:'movies',   status:'completed',          rating:10, review:'Quietly devastating. Redefines what family means.' },
-      { id:'6',  title:'Severance',                    creator:'Dan Erickson',                       category:'tv',       status:'completed',          rating:9,  review:'Haunting. Every episode left me reeling.' },
-      { id:'13', title:'The Bear',                     creator:'Christopher Storer',                 category:'tv',       status:'currently-engaging', rating:8 },
-      { id:'14', title:'I May Destroy You',            creator:'Michaela Coel',                      category:'tv',       status:'completed',          rating:10, review:'Raw and formally daring. Nothing else like it.' },
-      { id:'4',  title:'Carrie &amp; Lowell',          creator:'Sufjan Stevens',                     category:'music',    status:'completed',          rating:10, review:'An elegy I return to when language fails.' },
-      { id:'15', title:'Fetch the Bolt Cutters',       creator:'Fiona Apple',                        category:'music',    status:'completed',          rating:9 },
-      { id:'16', title:'For Emma, Forever Ago',        creator:'Bon Iver',                           category:'music',    status:'want-to-experience', rating:0 },
-      { id:'23', title:'A Seat at the Table',          creator:'Solange',                            category:'music',    status:'completed',          rating:9 },
-      { id:'5',  title:'Elden Ring',                   creator:'FromSoftware',                       category:'games',    status:'currently-engaging', rating:9 },
-      { id:'17', title:'Disco Elysium',                creator:'ZA/UM',                              category:'games',    status:'completed',          rating:10, review:'The most literary game ever made. Plays like a novel.' },
-      { id:'18', title:'Hollow Knight',                creator:'Team Cherry',                        category:'games',    status:'want-to-experience', rating:0 },
-      { id:'8',  title:'Slow Burn',                    creator:'Leon Neyfakh',                       category:'podcasts', status:'completed',          rating:8,  review:'Exceptional narrative journalism. Season 1 is essential.' },
-      { id:'19', title:"Conan O'Brien Needs a Friend", creator:"Conan O'Brien",                      category:'podcasts', status:'currently-engaging', rating:7 },
-      { id:'20', title:"You're Wrong About",           creator:'Michael Hobbes &amp; Sarah Marshall', category:'podcasts', status:'want-to-experience', rating:0 },
-    ];
-
-    const FAVORITES_IDS = ['1','2','9','17'];
-
-    // ── Helpers ─────────────────────────────────────────────────────
-    const GRADIENTS = {
-      books:'from-amber-900 to-amber-700', movies:'from-stone-800 to-stone-600',
-      tv:'from-teal-900 to-teal-700',      music:'from-indigo-900 to-indigo-700',
-      games:'from-slate-800 to-slate-600', podcasts:'from-rose-900 to-rose-700',
-    };
-
-    const GRAD_STYLES = {
-      books:    ['#78350f','#b45309'],
-      movies:   ['#292524','#57534e'],
-      tv:       ['#134e4a','#0f766e'],
-      music:    ['#1e1b4b','#4338ca'],
-      games:    ['#1e293b','#475569'],
-      podcasts: ['#4c0519','#9f1239'],
-    };
-
-    const STATUS = {
-      'completed':          { badge:'bg-emerald-50 text-emerald-700 border border-emerald-200', dot:'bg-emerald-400', label:'Completed' },
-      'currently-engaging': { badge:'bg-blue-50 text-blue-700 border border-blue-200',          dot:'bg-blue-400',    label:'Currently Engaging' },
-      'want-to-experience': { badge:'bg-amber-50 text-amber-700 border border-amber-200',       dot:'bg-amber-400',   label:'Want to Experience' },
-    };
-
-    function card(item) {
-      const g = GRADIENTS[item.category];
-      const s = STATUS[item.status];
-      const init = item.title.replace(/^(A |An |The )/,'')[0].toUpperCase();
-      return `<div class="group cursor-pointer">
-        <div class="relative w-full mb-3 rounded overflow-hidden" style="aspect-ratio:2/3">
-          <div class="w-full h-full bg-gradient-to-b ${g} flex items-end p-3">
-            <span class="serif font-bold text-white select-none leading-none" style="font-size:3.5rem;opacity:.18">${init}</span>
-          </div>
-          <div class="absolute top-2 right-2 w-2 h-2 rounded-full ${s.dot}" style="box-shadow:0 0 0 2px rgba(255,255,255,.3)"></div>
+  <!-- ─── FOOTER ───────────────────────────────────────────────────── -->
+  <footer class="border-t border-lantern-200 bg-lantern-50 py-10 px-6">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center"
+             style="background:#6b6652">
+          <span class="serif font-bold text-white" style="font-size:.75rem">L</span>
         </div>
-        <h4 class="serif font-semibold text-sm leading-snug text-lantern-900 mb-0.5 clamp2">${item.title}</h4>
-        <p class="text-xs text-lantern-400 truncate mb-1">${item.creator}</p>
-        <div class="flex items-center justify-between">
-          <span class="text-xs px-2 py-0.5 rounded-full font-medium ${s.badge}">${s.label}</span>
-          ${item.rating > 0 ? `<span class="text-xs font-semibold text-lantern-600">${item.rating}<span class="font-normal text-lantern-400">/10</span></span>` : ''}
-        </div>
-        ${item.review ? `<p class="text-xs text-lantern-400 italic leading-relaxed mt-1 clamp2">${item.review}</p>` : ''}
-      </div>`;
-    }
+        <span class="serif font-bold text-lantern-700">Lantern</span>
+      </div>
+      <nav class="flex flex-wrap justify-center gap-6 text-xs text-lantern-500">
+        <a href="profile.html"  class="hover:text-lantern-900 transition-colors">Profile</a>
+        <a href="feed.html"     class="hover:text-lantern-900 transition-colors">Feed</a>
+        <a href="lists.html"    class="hover:text-lantern-900 transition-colors">Lists</a>
+        <a href="cohorts.html"  class="hover:text-lantern-900 transition-colors">Cohorts</a>
+        <a href="search.html"   class="hover:text-lantern-900 transition-colors">Search</a>
+        <a href="onboarding.html" class="hover:text-lantern-900 transition-colors">Get Started</a>
+      </nav>
+      <p class="text-xs text-lantern-400">Lantern · v0.6.0</p>
+    </div>
+  </footer>
 
-    function engagingCard(item) {
-      const [from, to] = GRAD_STYLES[item.category];
-      const init = item.title.replace(/^(A |An |The )/,'')[0].toUpperCase();
-      const catLabel = item.category[0].toUpperCase() + item.category.slice(1);
-      return `<div class="flex-shrink-0 w-40 cursor-pointer group">
-        <div class="relative w-full mb-3 rounded overflow-hidden" style="aspect-ratio:2/3">
-          <div class="w-full h-full flex items-end p-3" style="background:linear-gradient(to bottom,${from},${to})">
-            <span class="serif font-bold text-white select-none leading-none" style="font-size:3.5rem;opacity:.18">${init}</span>
-          </div>
-          <div class="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-blue-400 pulse-dot" style="box-shadow:0 0 0 2px rgba(255,255,255,.4)"></div>
-        </div>
-        <h4 class="serif font-semibold text-sm leading-snug text-lantern-900 mb-0.5 clamp2">${item.title}</h4>
-        <p class="text-xs text-lantern-400 truncate mb-1.5">${item.creator}</p>
-        <span class="text-xs bg-lantern-100 text-lantern-600 px-2 py-0.5 rounded font-medium">${catLabel}</span>
-      </div>`;
-    }
-
-    // ── Render archetype badge ────────────────────────────────────────
-    document.getElementById('archetype-badge').innerHTML =
-      `<span class="serif italic text-sm px-3 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-200">${PLACEHOLDER_USER.archetype}</span>`;
-
-    // ── Render taste dimensions ───────────────────────────────────────
-    document.getElementById('dimensions-list').innerHTML = TASTE_DIMENSIONS.map(d => `
-      <div class="flex items-center gap-3">
-        <span class="text-xs text-lantern-600 w-44 flex-shrink-0">${d.label}</span>
-        <div class="flex-1 h-1.5 rounded-full bg-lantern-200 overflow-hidden">
-          <div class="h-full rounded-full bg-lantern-700" style="width:${d.score * 10}%"></div>
-        </div>
-        <span class="text-xs text-lantern-400 w-5 text-right flex-shrink-0">${d.score}</span>
-      </div>`).join('');
-
-    // ── Render stats ─────────────────────────────────────────────────
-    document.getElementById('stat-total').textContent     = MEDIA.length;
-    document.getElementById('stat-completed').textContent = MEDIA.filter(m=>m.status==='completed').length;
-    document.getElementById('stat-progress').textContent  = MEDIA.filter(m=>m.status==='currently-engaging').length;
-    document.getElementById('stat-rated').textContent     = MEDIA.filter(m=>m.rating>0).length;
-
-    // ── Render currently engaging ─────────────────────────────────────
-    document.getElementById('grid-engaging').innerHTML =
-      MEDIA.filter(m => m.status === 'currently-engaging').map(engagingCard).join('');
-
-    // ── Render favorites ─────────────────────────────────────────────
-    const favItems = MEDIA.filter(m => FAVORITES_IDS.includes(m.id));
-    document.getElementById('ct-favorites').textContent = favItems.length;
-    document.getElementById('grid-favorites').innerHTML = favItems.map(card).join('');
-
-    // ── Render category sections ──────────────────────────────────────
-    ['books','movies','tv','music','games','podcasts'].forEach(cat => {
-      const items = MEDIA.filter(m => m.category === cat);
-      if (!items.length) return;
-      document.getElementById(`sec-${cat}`).classList.remove('hidden');
-      document.getElementById(`ct-${cat}`).textContent = items.length;
-      document.getElementById(`grid-${cat}`).innerHTML = items.map(card).join('');
-    });
-
-    // ── Render taste neighbors ────────────────────────────────────────
-    document.getElementById('neighbors-list').innerHTML = TASTE_NEIGHBORS.map(n => `
-      <div class="pb-5 border-b border-lantern-100 last:border-b-0 last:pb-0">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-               style="background:linear-gradient(135deg,#c1bda6,#6b6652)">
-            <span class="serif text-xs font-bold text-white">${n.initials}</span>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-semibold text-lantern-900 leading-none mb-0.5">${n.name}</p>
-            <p class="text-xs font-semibold text-emerald-700">${n.match}% match</p>
-          </div>
-        </div>
-        <p class="text-xs text-lantern-400 italic mb-2">Both love <span class="not-italic text-lantern-600">${n.shared}</span></p>
-        <a href="#" class="text-xs text-lantern-600 border border-lantern-200 rounded px-2.5 py-1 hover:bg-lantern-50 transition-colors inline-block">View Profile</a>
-      </div>`).join('');
-  </script>
 </body>
 </html>

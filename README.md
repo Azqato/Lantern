@@ -32,7 +32,8 @@ Every item you log builds a taste graph. The graph powers your Cultural Archetyp
 
 ```
 lantern/
-├── index.html        — Profile page
+├── index.html        — Landing page (homepage for first-time visitors)
+├── profile.html      — User profile page
 ├── feed.html         — Discovery feed
 ├── lists.html        — Curated lists
 ├── cohorts.html      — Smart Cohorts discovery
@@ -48,7 +49,18 @@ lantern/
 
 ## Pages & Features
 
-### Profile (`index.html`)
+### Landing Page (`index.html`)
+A marketing homepage structured as a rocket pitch for first-time visitors. Seven sections:
+1. **Hero** — Headline, one-liner, dual CTA (Get Started / See how it works)
+2. **The Gap** — Dark panel showing what Instagram, TikTok, LinkedIn, and X don't offer
+3. **How it works** — Three pillars: taste identity, taste neighbors, smart community
+4. **The Platform** — Six feature cards linking to every page of the app
+5. **Principles** — Taste over Popularity, Depth over Virality, Global by Default
+6. **Taste Intelligence** — AI archetypes, dimensions, and neighbor matching explained
+7. **Final CTA** — "Ready to find yourself in culture?" with Get Started button
+- Footer with navigation to all six app pages
+
+### Profile (`profile.html`)
 - **Cultural Archetype badge** — A single evocative label (e.g. "The Slow Cinema Devotee") rendered as a serif italic amber pill beneath the user's name; backed by an `ARCHETYPES` array for future AI assignment
 - **Taste Dimensions widget** — 5 named dimensions (Narrative Complexity, Emotional Intensity, Experimental, Intimacy of Scale, Cross-Cultural Range) as labeled `h-1.5` horizontal progress bars
 - **Currently Engaging** — Live hero section between the profile header and collections; a horizontal scrollable row of in-progress items with animated pulsing blue dots
@@ -105,7 +117,8 @@ Shared component injected into every page via `<script src="nav.js">`. Handles a
 No installation required. Just open any page in a browser:
 
 ```
-index.html      — open directly in Chrome / Firefox / Safari
+index.html      — landing page (start here for first-time visitors)
+profile.html    — user profile
 ```
 
 Or serve with any static file server:

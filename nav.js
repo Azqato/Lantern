@@ -11,7 +11,7 @@
         </a>
 
         <div style="display:flex;align-items:center;gap:2rem">
-          <a href="index.html"    class="lantern-nav-link" data-page="index.html">Profile</a>
+          <a href="profile.html"   class="lantern-nav-link" data-page="profile.html">Profile</a>
           <a href="feed.html"     class="lantern-nav-link" data-page="feed.html">Feed</a>
           <a href="search.html"   class="lantern-nav-link" data-page="search.html">Search</a>
           <a href="lists.html"    class="lantern-nav-link" data-page="lists.html">Lists</a>
