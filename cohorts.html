@@ -80,31 +80,43 @@
         name:'Murakami &amp; Wong Kar-wai Devotees', members:234, match:94,
         description:'Lovers of magical realism and visual poetry. We discuss the untranslatable feelings great art leaves behind.',
         interests:['Kafka on the Shore','In the Mood for Love','Existential narratives','Slow cinema'],
+        commonWorks:['In the Mood for Love','Kafka on the Shore','Carrie &amp; Lowell','Yi Yi'],
+        weeklyActivity:5,
       },
       {
         name:'Quiet Albums &amp; Long Books', members:341, match:88,
         description:'Patient listeners and slow readers. We prefer albums that breathe and books that take their time.',
         interests:['Sufjan Stevens','Ishiguro','Ambient music','Literary fiction'],
+        commonWorks:['Carrie &amp; Lowell','The Remains of the Day','Fetch the Bolt Cutters'],
+        weeklyActivity:3,
       },
       {
         name:'Sci-Fi &amp; Philosophy Explorers', members:512, match:81,
         description:'Science fiction as a lens for examining the human condition. Villeneuve, LeGuin, and everything in between.',
         interests:['Dune','Severance','Existential themes','Hard sci-fi'],
+        commonWorks:['Dune: Part Two','Severance'],
+        weeklyActivity:7,
       },
       {
         name:'Television as Literature', members:423, match:85,
         description:'Prestige TV treated with the rigour of novels. Michaela Coel is this generation\'s best.',
         interests:['I May Destroy You','The Bear','Severance','Auteur television'],
+        commonWorks:['I May Destroy You','Severance','The Bear'],
+        weeklyActivity:4,
       },
       {
         name:'Indie Games &amp; Art House Film', members:189, match:76,
         description:'For those who believe games and cinema can be as formally adventurous as any other art form.',
         interests:['FromSoftware','Disco Elysium','Experimental cinema','Narrative games'],
+        commonWorks:['Disco Elysium','Elden Ring'],
+        weeklyActivity:2,
       },
       {
         name:'The Criterion Corner', members:678, match:72,
         description:'Serious cinephiles cataloguing everything. If it has a spine number, we have an opinion on it.',
         interests:['Yi Yi','Edward Yang','World cinema','Film restoration'],
+        commonWorks:['Yi Yi','In the Mood for Love','Shoplifters'],
+        weeklyActivity:6,
       },
     ].sort((a,b) => b.match - a.match);
 
@@ -112,6 +124,10 @@
       const interests = c.interests.map(i =>
         `<span class="text-xs bg-lantern-50 border border-lantern-200 text-lantern-600 px-2 py-0.5 rounded">${i}</span>`
       ).join('');
+
+      const workPills = c.commonWorks.slice(0,3).map(w =>
+        `<span class="text-xs italic text-lantern-600 bg-lantern-50 border border-lantern-200 px-2 py-0.5 rounded">· ${w}</span>`
+      ).join(' ');
 
       return `<article class="bg-white border border-lantern-200 rounded-lg p-5 hover:shadow-md transition-shadow flex flex-col">
         <div class="flex items-center justify-between mb-3">
@@ -122,7 +138,12 @@
         </div>
         <h2 class="serif font-bold text-base text-lantern-900 mb-2 leading-snug">${c.name}</h2>
         <p class="text-xs text-lantern-500 leading-relaxed mb-4 flex-1">${c.description}</p>
-        <div class="flex flex-wrap gap-1.5 mb-4">${interests}</div>
+        <div class="mb-4">
+          <p class="text-xs text-lantern-500 mb-1.5">You have ${c.commonWorks.length} work${c.commonWorks.length !== 1 ? 's' : ''} in common</p>
+          <div class="flex flex-wrap gap-1">${workPills}</div>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mb-3">${interests}</div>
+        <p class="text-xs text-lantern-400 text-right mb-3">${c.weeklyActivity} new reviews this week</p>
         <div class="flex gap-2">
           <button class="flex-1 px-3 py-2 text-xs font-medium rounded bg-lantern-700 text-white hover:bg-lantern-800 transition-colors">
             Join Cohort

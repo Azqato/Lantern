@@ -57,6 +57,7 @@
       <button class="px-4 py-2 rounded font-medium bg-lantern-100 text-lantern-900 hover:bg-lantern-200 transition-colors text-sm">
         + Create List
       </button>
+      <p class="text-xs text-lantern-400 mt-3">Or fork a list you love and make it your own.</p>
     </div>
 
   </main>
@@ -66,61 +67,38 @@
       {
         title:'Films for Slow Mornings',
         description:'Quiet films to watch with coffee before the world wakes up.',
-        count:12, isPublic:true, updated:'3 days ago',
+        count:12, isPublic:true, updated:'3 days ago', followers:47,
+        author:{ name:'Alex Chen', initials:'AC', archetype:'The Slow Cinema Devotee' },
         preview:['In the Mood for Love','Paterson','Yi Yi','Lost in Translation'],
         colors:['from-stone-800 to-stone-600','from-teal-900 to-teal-700','from-stone-700 to-stone-500','from-indigo-900 to-indigo-700'],
       },
       {
         title:'Books That Rewired Something',
         description:'Not necessarily the best books. The ones that changed how I see.',
-        count:8, isPublic:true, updated:'1 week ago',
+        count:8, isPublic:true, updated:'1 week ago', followers:31,
+        author:{ name:'Alex Chen', initials:'AC', archetype:'The Slow Cinema Devotee' },
         preview:['Kafka on the Shore','The Remains of the Day','Stoner','Gilead'],
         colors:['from-amber-900 to-amber-700','from-amber-800 to-amber-600','from-amber-700 to-amber-500','from-stone-800 to-stone-600'],
       },
       {
         title:'Soundtracks to Existential Crises',
         description:"Albums that understand you're both fine and falling apart.",
-        count:15, isPublic:false, updated:'2 weeks ago',
+        count:15, isPublic:false, updated:'2 weeks ago', followers:62,
+        author:{ name:'Alex Chen', initials:'AC', archetype:'The Slow Cinema Devotee' },
         preview:['Carrie &amp; Lowell','Fetch the Bolt Cutters','A Moon Shaped Pool','For Emma'],
         colors:['from-indigo-900 to-indigo-700','from-indigo-800 to-indigo-600','from-slate-800 to-slate-600','from-indigo-700 to-indigo-500'],
       },
       {
         title:'Games With Something to Say',
         description:'The canon of games that earn the word &ldquo;literary.&rdquo;',
-        count:6, isPublic:true, updated:'1 month ago',
+        count:6, isPublic:true, updated:'1 month ago', followers:19,
+        author:{ name:'Alex Chen', initials:'AC', archetype:'The Slow Cinema Devotee' },
         preview:['Disco Elysium','Elden Ring','Hades','Undertale'],
         colors:['from-slate-800 to-slate-600','from-slate-700 to-slate-500','from-rose-900 to-rose-700','from-slate-600 to-slate-400'],
       },
     ];
 
     function listCard(l) {
-      const mosaicCols = l.preview.slice(0,4).map((title,i) => `
-        <div class="flex-1 flex items-end justify-start p-2" style="background:linear-gradient(to bottom,var(--from),var(--to));
-             --from:transparent;--to:transparent" class="bg-gradient-to-b ${l.colors[i] || 'from-lantern-600 to-lantern-800'}">
-          <span class="serif font-bold text-white leading-none select-none" style="font-size:2rem;opacity:.2">${title.replace(/&amp;/g,'&')[0]}</span>
-        </div>`).join('');
-
-      // Build mosaic manually with inline styles to avoid Tailwind dynamic class issues
-      const gradients = [
-        ['#78350f','#b45309'], // amber-900 to amber-700
-        ['#292524','#57534e'], // stone-800 to stone-600
-        ['#134e4a','#0f766e'], // teal-900 to teal-700
-        ['#1e1b4b','#4338ca'], // indigo-900 to indigo-700
-        ['#1e293b','#475569'], // slate-800 to slate-600
-        ['#4c0519','#9f1239'], // rose-900 to rose-700
-        ['#422006','#92400e'], // amber-900 variant
-        ['#1c1917','#44403c'], // stone variant
-      ];
-
-      const categoryGrad = {
-        Films:['#292524','#57534e'], Books:['#78350f','#b45309'],
-        Music:['#1e1b4b','#4338ca'], Games:['#1e293b','#475569'],
-      };
-
-      const cat = l.title.includes('Film') ? 'Films' : l.title.includes('Book') ? 'Books' :
-                  l.title.includes('Sound') ? 'Music' : 'Games';
-      const g = categoryGrad[cat] || ['#4a4639','#6b6652'];
-
       const mosaic = l.preview.slice(0,4).map((title,i) => {
         const gs = [
           ['#78350f','#b45309'],['#292524','#57534e'],
@@ -147,11 +125,23 @@
             <h2 class="serif font-bold text-lg text-lantern-900 group-hover:text-lantern-700 transition-colors leading-snug">${l.title}</h2>
             ${!l.isPublic ? '<span class="text-xs bg-lantern-100 text-lantern-500 px-2 py-0.5 rounded flex-shrink-0 mt-0.5">Private</span>' : ''}
           </div>
-          <p class="text-sm text-lantern-500 italic leading-relaxed mb-4">${l.description}</p>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                 style="background:linear-gradient(135deg,#c1bda6,#6b6652)">
+              <span class="serif text-white font-bold" style="font-size:.5rem">${l.author.initials}</span>
+            </div>
+            <span class="text-xs text-lantern-500">by ${l.author.name}</span>
+            <span class="text-xs text-lantern-400 italic">· ${l.author.archetype}</span>
+          </div>
+          <p class="text-sm text-lantern-500 italic leading-relaxed mb-2">${l.description}</p>
+          <p class="text-xs text-lantern-400 mb-4">${l.followers} people follow this list</p>
           <div class="flex flex-wrap gap-1.5 mb-4">${badges}${extra}</div>
-          <div class="flex items-center justify-between text-xs text-lantern-400">
-            <span>${l.count} items</span>
-            <span>Updated ${l.updated}</span>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-lantern-400">${l.count} items · Updated ${l.updated}</span>
+            <a href="#" title="Copy and make your own version"
+               class="text-xs text-lantern-600 border border-lantern-200 rounded px-2.5 py-1 hover:bg-lantern-50 transition-colors">
+              Fork
+            </a>
           </div>
         </div>
       </article>`;

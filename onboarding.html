@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lantern — Get Started</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      safelist: [
+        'bg-emerald-50','text-emerald-700','border-emerald-200',
+        'from-amber-900','to-amber-700',
+        'from-stone-800','to-stone-600',
+        'from-teal-900','to-teal-700',
+        'from-indigo-900','to-indigo-700',
+        'from-slate-800','to-slate-600',
+        'from-rose-900','to-rose-700',
+      ],
+      theme: {
+        extend: {
+          colors: {
+            lantern: {
+              50:'#fafaf8', 100:'#f5f5f1', 200:'#ebe7e1', 300:'#ddd7ce',
+              400:'#cfc9ba', 500:'#c1bda6', 600:'#8b8772', 700:'#6b6652',
+              800:'#4a4639', 900:'#2a2622',
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia','Garamond','serif'],
+            sans:  ['system-ui','-apple-system','sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .serif { font-family: Georgia, Garamond, serif; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px) }
+      to   { opacity:1; transform:translateY(0) }
+    }
+    .fade-up { animation: fadeUp .5s ease forwards; opacity:0; }
+    .fade-up-1 { animation-delay: .05s; }
+    .fade-up-2 { animation-delay: .2s; }
+    .fade-up-3 { animation-delay: .35s; }
+
+    .work-card.selected { outline: 2px solid #6b6652; outline-offset: 2px; }
+    .work-card.selected .check-overlay { display: flex; }
+    .check-overlay { display: none; }
+
+    .join-btn.joined { background: #6b6652; color: white; border-color: #6b6652; }
+  </style>
+</head>
+<body class="bg-lantern-50 text-lantern-900 antialiased min-h-screen">
+
+  <!-- Step indicator (hidden on step 1) -->
+  <div id="step-indicator" class="hidden pt-8 pb-2">
+    <div class="flex justify-center gap-2">
+      <span class="step-dot w-2 h-2 rounded-full transition-all" style="background:#ddd7ce"></span>
+      <span class="step-dot w-2 h-2 rounded-full transition-all" style="background:#ddd7ce"></span>
+      <span class="step-dot w-2 h-2 rounded-full transition-all" style="background:#ddd7ce"></span>
+      <span class="step-dot w-2 h-2 rounded-full transition-all" style="background:#ddd7ce"></span>
+      <span class="step-dot w-2 h-2 rounded-full transition-all" style="background:#ddd7ce"></span>
+    </div>
+  </div>
+
+  <!-- Back link (hidden on step 1) -->
+  <div id="back-link" class="hidden max-w-2xl mx-auto px-6 pt-4">
+    <button onclick="goBack()" class="text-sm text-lantern-500 hover:text-lantern-700 transition-colors">
+      ← Back
+    </button>
+  </div>
+
+  <!-- ── Step 1: Welcome ─────────────────────────────────────────── -->
+  <div id="step-1" class="flex flex-col items-center justify-center min-h-screen px-6 text-center">
+    <div class="w-14 h-14 rounded-full flex items-center justify-center mb-8"
+         style="background:#6b6652">
+      <span class="serif font-bold text-2xl text-white">L</span>
+    </div>
+    <h1 class="serif text-4xl font-bold text-lantern-900 mb-4 leading-tight">
+      Discover yourself through culture.
+    </h1>
+    <p class="text-lantern-500 text-base leading-relaxed mb-10 max-w-md">
+      Build your taste identity across books, films, music, games, and more.
+      Lantern learns what moves you and connects you with others who feel the same way.
+    </p>
+    <button onclick="goTo(2)"
+            class="px-8 py-3 rounded font-semibold bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-base">
+      Get Started →
+    </button>
+  </div>
+
+  <!-- ── Step 2: Pick favorites ──────────────────────────────────── -->
+  <div id="step-2" class="hidden max-w-5xl mx-auto px-6 py-10">
+    <div class="mb-8 text-center">
+      <h1 class="serif text-3xl font-bold text-lantern-900 mb-2">Pick works you love.</h1>
+      <p class="text-lantern-500 text-sm">Choose at least 8. The more you pick, the better your taste profile becomes.</p>
+      <p class="text-sm font-semibold text-lantern-700 mt-3">
+        <span id="selection-count">0</span> selected
+      </p>
+    </div>
+    <div id="works-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-8"></div>
+    <div class="text-center">
+      <button id="step2-continue"
+              onclick="goTo(3)"
+              disabled
+              class="px-8 py-3 rounded font-semibold bg-lantern-700 text-white transition-colors text-base opacity-40 cursor-not-allowed">
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Step 3: Taste profile ───────────────────────────────────── -->
+  <div id="step-3" class="hidden max-w-2xl mx-auto px-6 py-10">
+    <div class="mb-8 text-center">
+      <h1 class="serif text-3xl font-bold text-lantern-900 mb-2">Your taste profile</h1>
+      <p class="text-lantern-400 text-sm">This will sharpen over time as you log more.</p>
+    </div>
+
+    <div class="bg-white border border-lantern-200 rounded-lg p-8 mb-8 space-y-6">
+      <div class="fade-up fade-up-1 text-center">
+        <span class="serif italic text-base px-4 py-2 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+          The Slow Cinema Devotee
+        </span>
+      </div>
+
+      <div class="fade-up fade-up-2 border-l-2 border-lantern-700 pl-5 py-1">
+        <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-2">Taste Profile</p>
+        <p class="serif italic text-sm leading-relaxed text-lantern-800">
+          &ldquo;You enjoy magical realism, existential comedy, and emotionally restrained storytelling.
+          Your taste leans toward intimate narratives and artists who challenge convention without abandoning warmth.&rdquo;
+        </p>
+      </div>
+
+      <div class="fade-up fade-up-3">
+        <p class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-4">Taste Dimensions</p>
+        <div class="space-y-3" id="step3-dimensions"></div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button onclick="goTo(4)"
+              class="px-8 py-3 rounded font-semibold bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-base">
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Step 4: Suggested cohorts ──────────────────────────────── -->
+  <div id="step-4" class="hidden max-w-3xl mx-auto px-6 py-10">
+    <div class="mb-8 text-center">
+      <h1 class="serif text-3xl font-bold text-lantern-900 mb-2">You might belong here.</h1>
+      <p class="text-lantern-500 text-sm">Communities shaped by taste, not follows.</p>
+    </div>
+    <div id="step4-cohorts" class="space-y-4 mb-8"></div>
+    <div class="text-center">
+      <button onclick="goTo(5)"
+              class="px-8 py-3 rounded font-semibold bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-base">
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Step 5: Import ─────────────────────────────────────────── -->
+  <div id="step-5" class="hidden max-w-2xl mx-auto px-6 py-10">
+    <div class="mb-8 text-center">
+      <h1 class="serif text-3xl font-bold text-lantern-900 mb-2">Import your history</h1>
+      <p class="text-lantern-500 text-sm">Optional — connect platforms you already use.</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-8" id="import-platforms"></div>
+
+    <div class="text-center">
+      <button onclick="goTo(6)"
+              class="text-sm text-lantern-500 hover:text-lantern-700 transition-colors">
+        Skip for now →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Step 6: Done ───────────────────────────────────────────── -->
+  <div id="step-6" class="hidden flex flex-col items-center justify-center min-h-screen px-6 text-center">
+    <div class="w-14 h-14 rounded-full flex items-center justify-center mb-8"
+         style="background:linear-gradient(135deg,#8b8772,#4a4639)">
+      <span class="serif font-bold text-2xl text-white">✓</span>
+    </div>
+    <h1 class="serif text-4xl font-bold text-lantern-900 mb-4">You're all set.</h1>
+    <p class="text-lantern-500 text-base mb-10">Your feed is ready. Start exploring.</p>
+    <a href="index.html"
+       class="px-8 py-3 rounded font-semibold bg-lantern-700 text-white hover:bg-lantern-800 transition-colors text-base inline-block">
+      Go to your profile →
+    </a>
+  </div>
+
+  <script>
+    // ── Data ─────────────────────────────────────────────────────────
+    const WORKS = [
+      { title:'Kafka on the Shore',         creator:'Haruki Murakami',   category:'books' },
+      { title:'In the Mood for Love',       creator:'Wong Kar-wai',      category:'movies' },
+      { title:'Yi Yi',                      creator:'Edward Yang',       category:'movies' },
+      { title:'Parasite',                   creator:'Bong Joon-ho',      category:'movies' },
+      { title:'The Remains of the Day',     creator:'Kazuo Ishiguro',    category:'books' },
+      { title:'Disco Elysium',              creator:'ZA/UM',             category:'games' },
+      { title:'Carrie &amp; Lowell',        creator:'Sufjan Stevens',    category:'music' },
+      { title:'Elden Ring',                 creator:'FromSoftware',      category:'games' },
+      { title:'Severance',                  creator:'Dan Erickson',      category:'tv' },
+      { title:'Zombie',                     creator:'Fela Kuti',         category:'music' },
+      { title:'Spirited Away',              creator:'Hayao Miyazaki',    category:'movies' },
+      { title:'2666',                       creator:'Roberto Bolaño',    category:'books' },
+      { title:'Mulholland Drive',           creator:'David Lynch',       category:'movies' },
+      { title:'Arrival',                    creator:'Denis Villeneuve',  category:'movies' },
+      { title:'Fetch the Bolt Cutters',     creator:'Fiona Apple',       category:'music' },
+      { title:'Hollow Knight',              creator:'Team Cherry',       category:'games' },
+      { title:'Punisher',                   creator:'Phoebe Bridgers',   category:'music' },
+      { title:'Portrait of a Lady on Fire', creator:'Céline Sciamma',   category:'movies' },
+      { title:'The Wire',                   creator:'David Simon',       category:'tv' },
+      { title:'1Q84',                       creator:'Haruki Murakami',   category:'books' },
+      { title:'Beloved',                    creator:'Toni Morrison',     category:'books' },
+      { title:'Stalker',                    creator:'Andrei Tarkovsky',  category:'movies' },
+      { title:'Shoplifters',                creator:'Hirokazu Kore-eda', category:'movies' },
+      { title:'A Seat at the Table',        creator:'Solange',           category:'music' },
+    ];
+
+    const GRAD_STYLES = {
+      books:    ['#78350f','#b45309'],
+      movies:   ['#292524','#57534e'],
+      tv:       ['#134e4a','#0f766e'],
+      music:    ['#1e1b4b','#4338ca'],
+      games:    ['#1e293b','#475569'],
+    };
+
+    const TASTE_DIMENSIONS = [
+      { label:'Narrative Complexity', score:8 },
+      { label:'Emotional Intensity',  score:7 },
+      { label:'Experimental',         score:5 },
+      { label:'Intimacy of Scale',    score:9 },
+      { label:'Cross-Cultural Range', score:6 },
+    ];
+
+    const ONBOARDING_COHORTS = [
+      { name:'Murakami &amp; Wong Kar-wai Devotees', members:234, match:94, description:'Lovers of magical realism and visual poetry. We discuss the untranslatable feelings great art leaves behind.' },
+      { name:'Quiet Albums &amp; Long Books',        members:341, match:88, description:'Patient listeners and slow readers. We prefer albums that breathe and books that take their time.' },
+      { name:'Television as Literature',             members:423, match:85, description:'Prestige TV treated with the rigour of novels. Michaela Coel is this generation\'s best.' },
+    ];
+
+    const PLATFORMS = [
+      { name:'Goodreads',   color:'#5B8A3C', abbr:'G',  label:'Books' },
+      { name:'Letterboxd',  color:'#2C3440', abbr:'Lb', label:'Films' },
+      { name:'Spotify',     color:'#1DB954', abbr:'Sp', label:'Music' },
+      { name:'IGDB',        color:'#1E3A5F', abbr:'IG', label:'Games' },
+    ];
+
+    // ── State ─────────────────────────────────────────────────────────
+    let currentStep = 1;
+    const TOTAL_STEPS = 6;
+    const MIN_SELECTIONS = 8;
+    let selected = new Set();
+
+    // ── Navigation ────────────────────────────────────────────────────
+    function goTo(step) {
+      document.getElementById(`step-${currentStep}`).classList.add('hidden');
+      currentStep = step;
+      document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+      updateChrome();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBack() {
+      if (currentStep > 1) goTo(currentStep - 1);
+    }
+
+    function updateChrome() {
+      const indicator = document.getElementById('step-indicator');
+      const backLink   = document.getElementById('back-link');
+
+      if (currentStep === 1 || currentStep === 6) {
+        indicator.classList.add('hidden');
+        backLink.classList.add('hidden');
+      } else {
+        indicator.classList.remove('hidden');
+        backLink.classList.remove('hidden');
+      }
+
+      // Update dots (steps 2-6 map to dots 1-5)
+      if (currentStep >= 2) {
+        const pos = currentStep - 1;
+        document.querySelectorAll('.step-dot').forEach((dot, i) => {
+          dot.style.background = (i + 1 === pos) ? '#6b6652' : '#ddd7ce';
+          dot.style.width      = (i + 1 === pos) ? '0.625rem' : '0.5rem';
+          dot.style.height     = (i + 1 === pos) ? '0.625rem' : '0.5rem';
+        });
+      }
+    }
+
+    // ── Render step 2: works grid ─────────────────────────────────────
+    document.getElementById('works-grid').innerHTML = WORKS.map((w, i) => {
+      const [from, to] = GRAD_STYLES[w.category] || ['#6b6652','#4a4639'];
+      const init = w.title.replace(/^(A |An |The )/,'').replace(/&amp;/g,'&')[0].toUpperCase();
+      return `<div class="work-card cursor-pointer rounded overflow-hidden group" onclick="toggleWork(${i}, this)" data-index="${i}">
+        <div class="relative w-full" style="aspect-ratio:2/3">
+          <div class="w-full h-full flex items-end p-2" style="background:linear-gradient(to bottom,${from},${to})">
+            <span class="serif font-bold text-white leading-none select-none" style="font-size:2.5rem;opacity:.2">${init}</span>
+          </div>
+          <div class="check-overlay absolute inset-0 items-center justify-center" style="background:rgba(107,102,82,.6)">
+            <span class="text-white text-2xl font-bold">✓</span>
+          </div>
+        </div>
+        <div class="pt-1.5 pb-2">
+          <p class="serif text-xs font-semibold text-lantern-900 leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${w.title}</p>
+          <p class="text-xs text-lantern-400 truncate">${w.creator}</p>
+        </div>
+      </div>`;
+    }).join('');
+
+    function toggleWork(index, el) {
+      if (selected.has(index)) {
+        selected.delete(index);
+        el.classList.remove('selected');
+      } else {
+        selected.add(index);
+        el.classList.add('selected');
+      }
+      const count = selected.size;
+      document.getElementById('selection-count').textContent = count;
+      const btn = document.getElementById('step2-continue');
+      if (count >= MIN_SELECTIONS) {
+        btn.disabled = false;
+        btn.classList.remove('opacity-40','cursor-not-allowed');
+      } else {
+        btn.disabled = true;
+        btn.classList.add('opacity-40','cursor-not-allowed');
+      }
+    }
+
+    // ── Render step 3: dimensions ─────────────────────────────────────
+    document.getElementById('step3-dimensions').innerHTML = TASTE_DIMENSIONS.map(d => `
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-lantern-600 w-44 flex-shrink-0">${d.label}</span>
+        <div class="flex-1 h-1.5 rounded-full bg-lantern-200 overflow-hidden">
+          <div class="h-full rounded-full bg-lantern-700" style="width:${d.score * 10}%"></div>
+        </div>
+        <span class="text-xs text-lantern-400 w-5 text-right flex-shrink-0">${d.score}</span>
+      </div>`).join('');
+
+    // ── Render step 4: cohorts ────────────────────────────────────────
+    document.getElementById('step4-cohorts').innerHTML = ONBOARDING_COHORTS.map(c => `
+      <div class="bg-white border border-lantern-200 rounded-lg p-5 flex items-start gap-4">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <h3 class="serif font-bold text-base text-lantern-900 leading-snug">${c.name}</h3>
+            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex-shrink-0">${c.match}%</span>
+          </div>
+          <p class="text-xs text-lantern-500 leading-relaxed mb-1">${c.description}</p>
+          <p class="text-xs text-lantern-400">${c.members.toLocaleString()} members</p>
+        </div>
+        <button class="join-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded border border-lantern-300 text-lantern-700 hover:bg-lantern-50 transition-colors"
+                onclick="toggleJoin(this)">
+          Join
+        </button>
+      </div>`).join('');
+
+    function toggleJoin(btn) {
+      btn.classList.toggle('joined');
+      btn.textContent = btn.classList.contains('joined') ? 'Joined ✓' : 'Join';
+    }
+
+    // ── Render step 5: import platforms ──────────────────────────────
+    document.getElementById('import-platforms').innerHTML = PLATFORMS.map(p => `
+      <div class="bg-white border border-lantern-200 rounded-lg p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded flex items-center justify-center flex-shrink-0"
+             style="background:${p.color}">
+          <span class="serif font-bold text-white text-xs">${p.abbr}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-sm text-lantern-900">${p.name}</p>
+          <p class="text-xs text-lantern-400">${p.label}</p>
+        </div>
+        <button
+          disabled
+          title="Coming soon"
+          class="text-xs font-medium text-lantern-400 border border-lantern-200 rounded px-3 py-1.5 cursor-not-allowed opacity-60">
+          Connect
+        </button>
+      </div>`).join('');
+  </script>
+</body>
+</html>

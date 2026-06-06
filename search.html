@@ -44,7 +44,6 @@
       <h1 class="serif text-4xl font-bold text-lantern-900 mb-6">Search</h1>
 
       <div class="relative">
-        <!-- Magnifying glass icon -->
         <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-lantern-400 pointer-events-none"
              width="18" height="18" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -63,10 +62,32 @@
     </div>
 
     <!-- Category filters -->
-    <div class="flex flex-wrap gap-2 mb-10" id="cat-filters"></div>
+    <div class="flex flex-wrap gap-2 mb-8" id="cat-filters"></div>
 
-    <!-- Default state: trending + suggested -->
+    <!-- Default state: theme browse + neighbors + trending + suggested -->
     <div id="default-state">
+
+      <!-- Browse by Theme -->
+      <section class="mb-10">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-4">
+          Browse by Theme
+        </h2>
+        <div id="theme-pills" class="flex flex-wrap gap-2"></div>
+      </section>
+
+      <!-- Find Taste Neighbors -->
+      <section class="mb-10">
+        <div class="bg-white border border-lantern-200 rounded-lg p-6">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-lantern-500 mb-2">Find Taste Neighbors</h2>
+          <p class="text-sm text-lantern-500 leading-relaxed mb-6">
+            Discover people whose taste graph overlaps with yours — not by who they follow, but by what they love.
+          </p>
+          <div id="neighbor-results" class="space-y-5 mb-5"></div>
+          <a href="#" class="text-sm text-lantern-700 hover:text-lantern-900 transition-colors font-medium">
+            Explore all taste neighbors →
+          </a>
+        </div>
+      </section>
 
       <!-- Trending -->
       <section class="mb-10">
@@ -100,13 +121,21 @@
   <script>
     const CATEGORIES = ['All','Books','Movies','TV','Music','Games','Podcasts'];
 
+    const THEMES = [
+      'Grief','Memory','Identity','Loneliness','Obsession','Redemption',
+      'Coming of Age','Existentialism','Nostalgia','Alienation','Love','Power',
+    ];
+
     const TRENDING = [
-      { query:'Haruki Murakami',   category:'Books' },
-      { query:'Wong Kar-wai',      category:'Movies' },
-      { query:'Sufjan Stevens',    category:'Music' },
-      { query:'Disco Elysium',     category:'Games' },
-      { query:'Severance',         category:'TV' },
-      { query:'Edward Yang',       category:'Movies' },
+      { query:'Haruki Murakami',    category:'Books' },
+      { query:'Wong Kar-wai',       category:'Movies' },
+      { query:'Sufjan Stevens',     category:'Music' },
+      { query:'Disco Elysium',      category:'Games' },
+      { query:'Severance',          category:'TV' },
+      { query:'Edward Yang',        category:'Movies' },
+      { query:'Bong Joon-ho',       category:'Movies' },
+      { query:'Toni Morrison',      category:'Books' },
+      { query:'Hirokazu Kore-eda',  category:'Movies' },
     ];
 
     const SUGGESTED = [
@@ -115,6 +144,12 @@
       'Albums under 40 minutes',
       'Games with literary writing',
       'Podcasts about history',
+    ];
+
+    const SEARCH_NEIGHBORS = [
+      { initials:'JM', name:'Jordan Martinez', archetype:'The Literary Nomad',        match:91, works:['In the Mood for Love','Disco Elysium'] },
+      { initials:'SO', name:'Sam Okonkwo',     archetype:'The Melancholy Optimist',   match:87, works:['Carrie & Lowell','Yi Yi'] },
+      { initials:'PP', name:'Priya Patel',     archetype:'The Slow Cinema Devotee',   match:83, works:['Kafka on the Shore','I May Destroy You'] },
     ];
 
     let activeCategory = 'All';
@@ -132,6 +167,34 @@
       btn.classList.add('active');
       activeCategory = cat;
     }
+
+    // ── Theme pills ───────────────────────────────────────────────
+    document.getElementById('theme-pills').innerHTML = THEMES.map(theme => `
+      <button
+        onclick="fillSearch('${theme}')"
+        style="font-family:Georgia,Garamond,serif;font-style:italic;font-size:.9rem;padding:.375rem .875rem;border:1px solid #ebe7e1;border-left:3px solid transparent;border-radius:6px;background:white;color:#4a4639;cursor:pointer;transition:all .15s"
+        onmouseover="this.style.borderLeftColor='#6b6652';this.style.background='#f5f5f1';this.style.color='#2a2622'"
+        onmouseout="this.style.borderLeftColor='transparent';this.style.background='white';this.style.color='#4a4639'"
+      >${theme}</button>
+    `).join('');
+
+    // ── Taste neighbors ───────────────────────────────────────────
+    document.getElementById('neighbor-results').innerHTML = SEARCH_NEIGHBORS.map(n => `
+      <div class="flex items-start gap-3 pb-5 border-b border-lantern-100 last:border-b-0 last:pb-0">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+             style="background:linear-gradient(135deg,#c1bda6,#6b6652)">
+          <span class="serif text-xs font-bold text-white">${n.initials}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-baseline gap-2 mb-0.5">
+            <p class="text-sm font-semibold text-lantern-900">${n.name}</p>
+            <span class="text-xs font-semibold text-emerald-700">${n.match}% match</span>
+          </div>
+          <p class="text-xs text-lantern-400 italic mb-1">${n.archetype}</p>
+          <p class="text-xs text-lantern-500">Both love <span class="text-lantern-700">${n.works[0]}</span> and <span class="text-lantern-700">${n.works[1]}</span></p>
+        </div>
+        <a href="#" class="text-xs text-lantern-600 border border-lantern-200 rounded px-2.5 py-1 hover:bg-lantern-50 transition-colors flex-shrink-0">View</a>
+      </div>`).join('');
 
     // ── Trending ──────────────────────────────────────────────────
     document.getElementById('trending-grid').innerHTML = TRENDING.map(item => `

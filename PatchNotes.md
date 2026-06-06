@@ -5,6 +5,61 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.0] — 2026-06-06
+**Feature Expansion: Onboarding, Social Layer, & Global Content**
+
+### Added
+
+**Profile page (index.html)**
+- Cultural Archetype badge beneath user name — serif italic pill in amber, drawn from a `PLACEHOLDER_USER` object with `ARCHETYPES` array (5 options) for future AI assignment
+- Taste Dimensions widget below the taste summary — 5 labeled horizontal bars (Narrative Complexity, Emotional Intensity, Experimental, Intimacy of Scale, Cross-Cultural Range) with `h-1.5` progress bars in lantern-700 on lantern-200
+- "Currently Engaging" hero section — appears between the profile header and collections; horizontal scrollable row of cards with a pulsing blue dot (CSS `@keyframes pulse`) and a live indicator in the section heading
+- Taste Neighbors sidebar — main content area is now a `lg:grid-cols-4` two-column layout; right column shows 4 placeholder users with initials avatar, match %, one shared work, and a "View Profile" ghost button
+
+**Feed page (feed.html)**
+- `reason` field on every activity item — rendered as italic muted text below the user action line, making the feed feel algorithm-driven (e.g. "3 works in common · 91% taste match", "Member of Television as Literature")
+- Taste Neighbors sidebar block — appears above the Smart Cohorts widget; shows 3 placeholder users; both sidebar widgets are separate cards inside a single `sticky` container
+- Added Parasite (Bong Joon-ho) and 2666 (Roberto Bolaño) activity entries
+
+**Lists page (lists.html)**
+- Author line on each list card — small initials avatar + "by Alex Chen · The Slow Cinema Devotee"
+- Follower count — "X people follow this list"
+- "Fork" ghost button in the card action area, with `title="Copy and make your own version"`
+- `author` and `followers` fields added to every list object in `LISTS` data
+- Empty state CTA updated — added "Or fork a list you love and make it your own."
+
+**Cohorts page (cohorts.html)**
+- "Works in common" section on every cohort card — shows count and up to 3 shared works as italic pills (e.g. `· In the Mood for Love`)
+- Weekly activity line at card bottom — "X new reviews this week"
+- `commonWorks` array and `weeklyActivity` number added to every cohort object
+
+**Search page (search.html)**
+- "Browse by Theme" section — 12 cross-media theme pills (Grief, Memory, Identity, Loneliness, Obsession, Redemption, Coming of Age, Existentialism, Nostalgia, Alienation, Love, Power) in serif italic style with a left-border accent on hover; clicking fills the search input
+- "Find Taste Neighbors" CTA block — prominent card below the theme section with description copy, 3 placeholder users (name, archetype, match %, 2 shared works), and "Explore all taste neighbors →" link
+- Added Bong Joon-ho (Movies), Toni Morrison (Books), and Hirokazu Kore-eda (Movies) to `TRENDING` data
+
+**Onboarding page (onboarding.html)** — new file
+- 6-step first-run flow with step indicator (5 dots, steps 2–6) and Back navigation
+- Step 1: Welcome screen with Lantern logo and "Get Started →" CTA
+- Step 2: 24-work selection grid (6 columns) spanning all 6 categories and global titles; live counter; "Continue" disabled until ≥ 8 selected; selected cards show checkmark overlay
+- Step 3: Generated taste profile — archetype badge, taste summary quote, and 5 dimension bars, all animated in with `@keyframes fadeUp` and staggered delays
+- Step 4: 3 suggested cohort cards with Join toggle buttons
+- Step 5: Import screen with 4 platform tiles (Goodreads, Letterboxd, Spotify, IGDB); Connect buttons disabled with "Coming soon" tooltip; "Skip for now →" proceeds to step 6
+- Step 6: Done screen with "Go to your profile →" link to index.html
+- No nav bar on this page
+
+**Navigation (nav.js)**
+- "Sign In" button replaced with "Get Started" link (`href="onboarding.html"`)
+
+### Changed
+
+**Global — placeholder data diversified (Task 12)**
+- `index.html`: added Beloved (Toni Morrison, Books), Shoplifters (Hirokazu Kore-eda, Movies), A Seat at the Table (Solange, Music)
+- `feed.html`: added Parasite (Bong Joon-ho) rating and 2666 (Roberto Bolaño) started-activity entries
+- `search.html`: Bong Joon-ho, Toni Morrison, Hirokazu Kore-eda added to trending list
+
+---
+
 ## [0.4.0] — 2026-06-06
 **GitHub Pages Deployment**
 

@@ -18,12 +18,12 @@
           <a href="cohorts.html"  class="lantern-nav-link" data-page="cohorts.html">Cohorts</a>
         </div>
 
-        <button
-          style="padding:.5rem 1rem;border-radius:.375rem;font-weight:500;color:#6b6652;background:transparent;border:none;cursor:pointer;transition:background .15s"
-          onmouseover="this.style.background='#f5f5f1'"
-          onmouseout="this.style.background='transparent'">
-          Sign In
-        </button>
+        <a href="onboarding.html"
+           style="padding:.5rem 1rem;border-radius:.375rem;font-weight:500;color:#6b6652;background:transparent;border:none;cursor:pointer;transition:background .15s;text-decoration:none;display:inline-block;font-size:.875rem"
+           onmouseover="this.style.background='#f5f5f1'"
+           onmouseout="this.style.background='transparent'">
+          Get Started
+        </a>
       </div>
     </nav>`;
 
