@@ -39,6 +39,7 @@ lantern/
 ├── cohorts.html      — Smart Cohorts discovery
 ├── search.html       — Search with theme browse & taste neighbors
 ├── onboarding.html   — 6-step first-run experience
+├── favicon.svg       — 📈 emoji favicon (used by all pages)
 ├── nav.js            — Shared navigation (injected by all pages)
 ├── PRD.md            — Full product requirements document
 ├── PatchNotes.md     — Changelog

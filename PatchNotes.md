@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.6.1] — 2026-06-06
+**Favicon**
+
+### Added
+- `favicon.svg` — 📈 emoji favicon added to all pages via `<link rel="icon" href="favicon.svg" type="image/svg+xml">` in each `<head>`
+
+---
+
 ## [0.6.0] — 2026-06-06
 **Landing Page & Site Restructure**
 
