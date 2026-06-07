@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.6.2] — 2026-06-06
+**Favicon correction**
+
+### Changed
+- `favicon.svg` — corrected favicon from 📈 to 🏮 (red lantern emoji)
+
+---
+
 ## [0.6.1] — 2026-06-06
 **Favicon**
 
